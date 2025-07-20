@@ -1,34 +1,41 @@
 # 🔮 Curve池子智慧預測系統 - 精簡版
 
-**基於PyTorch深度學習的Curve Finance Virtual Price預測與模型比較平台**
+**基於PyTorch深度學習+量子機器學習的Curve Finance Virtual Price預測與模型比較平台**
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PyTorch](https://img.shields.io/badge/PyTorch-v1.10+-red.svg)](https://pytorch.org/)
-[![Prediction Accuracy](https://img.shields.io/badge/實測準確率-69.28%25-green.svg)]()
+[![PennyLane](https://img.shields.io/badge/PennyLane-v0.28+-orange.svg)](https://pennylane.ai/)
+[![Prediction Accuracy](https://img.shields.io/badge/3Pool實測準確率-69.28%25-green.svg)]()
 
-> 🚀 **使用Random Forest、LSTM和Transformer模型預測Curve池子Virtual Price變化**
+> 🚀 **使用Random Forest、LSTM、Transformer和QNN(量子神經網絡)模型預測Curve池子Virtual Price變化**
 
 ---
 
 ## 🎯 **專案亮點**
 
 ### **🏆 核心功能**
-- **多模型比較**: Random Forest、PyTorch LSTM、PyTorch Transformer
-- **穩定預測表現**: Random Forest達到69.28%準確率，表現最佳
+- **多模型比較**: Random Forest、PyTorch LSTM、PyTorch Transformer、QNN量子神經網絡
+- **穩定預測表現**: Random Forest在3Pool測試中達到69.28%準確率
+- **量子機器學習**: 集成PennyLane量子計算框架，探索QNN在金融預測的潛力
 - **完整數據管道**: 37個Curve池子歷史數據自動收集與緩存  
 - **智能特徵工程**: 25個時間序列特徵，包含技術指標和流動性指標
-- **實戰驗證**: 基於1460條真實數據記錄的完整年度測試
+- **實戦驗證**: 基於3Pool的1460條真實數據記錄完整年度測試
 
-### **🤖 模型性能對比**
+### **🤖 模型性能對比 (基於3Pool單池子測試)**
 
 | 模型 | 實際準確率 | 訓練時間 | 特色 | 狀態 |
 |------|-----------|----------|------|------|
 | **Random Forest** | **69.28%** | **2分鐘** | 快速穩健，實際最佳 | 🏆 **推薦** |
 | **LSTM (PyTorch)** | **44.19%** | **5-10分鐘** | 需要調參優化 | ⚠️ **改進中** |
 | **Transformer (PyTorch)** | **54.26%** | **10-15分鐘** | 潛力大，需要調優 | 🔧 **調優中** |
+| **QNN (量子神經網絡)** | **待測試** | **15-30分鐘** | 前沿量子機器學習 | 🌌 **實驗性** |
 
-> **💡 實際測試發現**: Random Forest在Curve Virtual Price預測任務中表現最穩定，深度學習模型可能需要更多調參和特徵工程
+> **⚠️ 重要說明**: 以上結果僅基於**3Pool池子**的測試，不是37個池子的平均結果。不同池子的最佳模型可能有所差異。
+
+> **💡 實際測試發現**: Random Forest在3Pool的Curve Virtual Price預測任務中表現最穩定，深度學習模型可能需要更多調參和特徵工程
+
+> **🌌 QNN說明**: 量子神經網絡需要安裝PennyLane (`pip install pennylane`)，代表量子機器學習的前沿探索
 
 ---
 
@@ -189,8 +196,11 @@ for pool in supported_pools:
 git clone <repository>
 cd Quantum_curve_predict
 
-# 安裝依賴
+# 安裝基本依賴
 pip install -r requirements.txt
+
+# 可選：安裝量子機器學習支持
+pip install pennylane pennylane-lightning
 ```
 
 ### **2️⃣ 數據收集**
@@ -201,9 +211,14 @@ python free_historical_data.py
 
 ### **3️⃣ 模型比較**
 ```bash
-# 運行完整模型比較 (Random Forest + LSTM + Transformer)
+# 運行完整模型比較 (Random Forest + LSTM + Transformer + QNN)
 python pytorch_model_comparison.py
 ```
+
+**🌌 量子模型說明**:
+- 如果安裝了PennyLane，系統會自動訓練QNN模型
+- 如果沒有PennyLane，系統會跳過QNN，只訓練其他3個模型
+- QNN訓練時間較長，請耐心等待
 
 ### **4️⃣ 查看結果**
 - 📈 `*_pytorch_comparison_predictions.png` - 模型預測對比圖
@@ -270,6 +285,25 @@ Transformer架構:
 ├── 前饋網絡: 隱藏層維度128
 ├── 層歸一化: 防止梯度消失
 └── 殘差連接: 提升訓練穩定性
+```
+
+### **🌌 QNN量子神經網絡 (PyTorch + PennyLane)**
+```python
+QNN混合架構:
+├── 經典預處理層: Linear(25 → 24) + Tanh激活
+├── 量子電路層: 4個量子比特 + 2層變分電路
+│   ├── 數據編碼: RY旋轉門編碼經典數據
+│   ├── 變分層: RX/RY/RZ旋轉門 (可訓練參數)
+│   ├── 糾纏層: CNOT門建立量子糾纏
+│   └── 測量: PauliZ期望值測量
+├── 經典後處理層: Linear(4 → 2) + ReLU + Linear(2 → 1)
+└── 優化器: Adam, 學習率0.01 (較高學習率)
+
+量子特性:
+├── 量子態疊加: 同時探索多種解空間
+├── 量子糾纏: 捕獲特徵間的量子關聯
+├── 量子干涉: 增強有用信號、消除噪聲
+└── 變分優化: 經典-量子混合訓練
 ```
 
 ---
@@ -453,24 +487,30 @@ print(f"決策結果: {decision}")
 
 ## 📈 **投資策略建議**
 
-### **🎯 基於實際結果的投資策略**
+### **🎯 基於3Pool實際測試結果的投資策略**
 
-**🏆 推薦策略** (基於Random Forest，準確率69.28%):
-- 主要依靠Random Forest模型預測
+**🏆 推薦策略** (基於3Pool測試 - Random Forest，準確率69.28%):
+- 主要依靠Random Forest模型預測3Pool走勢
 - MAE: 1.791，RMSE: 2.270 (預測誤差相對較小)
 - 穩定性高，無過擬合問題
-- **建議**: 作為主要決策依據
+- **建議**: 可作為3Pool投資的主要決策依據
 
-**⚖️ 審慎策略** (深度學習模型輔助):
-- Transformer準確率54.26%，僅略高於隨機
-- LSTM準確率44.19%，低於隨機基線
-- **建議**: 僅作參考，不建議單獨使用
+**⚖️ 審慎策略** (深度學習模型在3Pool的表現):
+- Transformer在3Pool準確率54.26%，僅略高於隨機
+- LSTM在3Pool準確率44.19%，低於隨機基線
+- **建議**: 對3Pool僅作參考，不建議單獨使用
 
-**🔧 改進方向** (提升深度學習性能):
+**🔧 改進方向** (針對3Pool優化深度學習性能):
 - 調整超參數 (學習率、網絡層數、序列長度)
 - 增加特徵工程 (外部市場數據、技術指標)
 - 嘗試不同架構 (GRU、Transformer-XL、ensemble)
-- **目標**: 將深度學習模型準確率提升至70%+
+- **目標**: 將3Pool深度學習模型準確率提升至70%+
+
+**🌐 多池子策略考慮**:
+- 不同池子可能有不同的最佳模型
+- ETH類池子(stETH)可能更適合深度學習
+- 穩定幣池(3pool)目前Random Forest表現最佳
+- **建議**: 逐個池子測試找出最佳模型組合
 
 ### **⚠️ 風險管理**
 ```python
@@ -682,16 +722,20 @@ comparator = PyTorchModelComparison(
 comparator.train_random_forest()  # 推薦使用
 ```
 
-**Q: 為什麼Random Forest比深度學習效果好**
+**Q: 為什麼Random Forest在3Pool中比深度學習效果好**
 ```text
-可能原因:
-1. 數據集規模相對較小 (765條記錄)
+可能原因 (基於3Pool測試結果):
+1. 3Pool數據集規模相對較小 (765條記錄)
 2. 特徵維度適中 (25個特徵)，RF更適合表格數據
-3. 時間序列複雜度較低，傳統ML已足夠
+3. 3Pool作為穩定幣池，時間序列複雜度較低
 4. 深度學習需要更多調參和特徵工程
-5. Virtual Price變化相對穩定，不需要複雜模型
+5. 3Pool的Virtual Price變化相對穩定，不需要複雜模型
+6. 不同池子可能有不同結果 (如ETH類池子可能更適合深度學習)
 
-建議: 在此任務中優先使用Random Forest
+建議: 
+- 對於3Pool等穩定幣池，優先使用Random Forest
+- 對於高波動池子 (如tricrypto)，可嘗試深度學習
+- 建議逐個池子測試找出最佳模型
 ```
 
 ### **🔍 日志和調試**
@@ -737,9 +781,9 @@ comparator.run_complete_comparison()
 
 ### **✅ 核心成就**
 - ✨ **統一框架**: 純PyTorch實現，避免框架衝突
-- 🏆 **實測驗證**: Random Forest達到69.28%穩定準確率
+- 🏆 **實測驗證**: 3Pool測試中Random Forest達到69.28%穩定準確率
 - 🚀 **完整流程**: 數據收集→特徵工程→模型訓練→結果可視化
-- 📊 **37個池子**: 完整覆蓋主流Curve池子，1460條實際數據驗證
+- 📊 **37個池子**: 完整覆蓋主流Curve池子，已完成3Pool的1460條實際數據驗證
 - 💻 **易於使用**: 兩個核心文件，簡潔高效
 
 ### **📈 技術指標**
@@ -750,14 +794,20 @@ comparator.run_complete_comparison()
 ├── 特徵工程後: 765條有效記錄
 ├── 訓練/測試: 612/153樣本 (80/20分割)
 ├── 特徵數量: 25個工程特徵
-├── 模型數量: 3個模型 (RF + LSTM + Transformer)
+├── 模型數量: 4個模型 (RF + LSTM + Transformer + QNN)
 ├── 最佳準確率: 69.28% (Random Forest)
-└── 處理速度: 完整訓練<15分鐘
+└── 處理速度: 完整訓練<30分鐘 (含QNN)
 
 🏊 數據收集能力:
 ├── 支援池子: 37個主流Curve池子
 ├── 數據質量: 高精度歷史數據
 └── 緩存系統: 智能避重複下載
+
+🌌 量子計算能力:
+├── 量子框架: PennyLane + PyTorch集成
+├── 量子比特: 4個模擬量子比特
+├── 量子電路: 變分量子電路 (VQC)
+└── 混合計算: 經典-量子混合優化
 ```
 
 ### **💰 商業價值**

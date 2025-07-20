@@ -1,17 +1,11 @@
-# 核心依賴 (數據處理和機器學習)
-pandas>=1.3.0
-numpy>=1.20.0
-matplotlib>=3.3.0
-scikit-learn>=1.0.0
-requests>=2.25.0
-
-# PyTorch (深度學習) - 可選
-torch>=1.10.0
-torchvision>=0.11.0
-torchaudio>=0.10.0
-
-# 時間和日期處理 (已包含在Python標準庫中)
-# datetime, time, json, pathlib - 標準庫
-
-# 可選：進度條和其他工具
-tqdm>=4.62.0 
+numpy
+pandas
+scikit-learn
+matplotlib
+seaborn
+yfinance
+requests
+torch
+pennylane
+pennylane-lightning
+xgboost 
