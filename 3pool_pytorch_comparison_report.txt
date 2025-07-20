@@ -1,0 +1,19 @@
+# 🚀 3pool 池子純PyTorch模型比較報告
+============================================================
+生成時間: 2025-07-20 14:59:21.121400
+框架: 純PyTorch實現 (Random Forest + PyTorch LSTM + PyTorch Transformer)
+數據期間: 365天
+預測目標: 未來6小時Virtual Price收益率
+
+🏆 最佳表現模型:
+模型: Random Forest
+測試準確率: 69.28%
+測試MAE: 1.7912%
+
+📊 模型排名 (按準確率):
+1. Random Forest: 69.28% (MAE: 1.7912)
+3. Transformer (PyTorch): 54.26% (MAE: 2.2341)
+2. LSTM (PyTorch): 44.19% (MAE: 2.7765)
+
+💡 建議:
+⚖️ 最佳模型表現中等，建議謹慎使用
