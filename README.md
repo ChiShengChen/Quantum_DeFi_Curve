@@ -1,842 +1,916 @@
-# 🔮 Curve池子智慧預測系統 - 精簡版
+# 🔮 Curve Pool Intelligent Prediction System - Lite Version
 
-**基於PyTorch深度學習+量子機器學習的Curve Finance Virtual Price預測與模型比較平台**
+**PyTorch Deep Learning + Quantum Machine Learning based Curve Finance Virtual Price Prediction and Model Comparison Platform**
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PyTorch](https://img.shields.io/badge/PyTorch-v1.10+-red.svg)](https://pytorch.org/)
 [![PennyLane](https://img.shields.io/badge/PennyLane-v0.28+-orange.svg)](https://pennylane.ai/)
-[![Prediction Accuracy](https://img.shields.io/badge/3Pool實測準確率-69.28%25-green.svg)]()
+[![Prediction Accuracy](https://img.shields.io/badge/3Pool_Test_Accuracy-69.28%25-green.svg)]()
 
-> 🚀 **使用Random Forest、LSTM、Transformer和QNN(量子神經網絡)模型預測Curve池子Virtual Price變化**
-
----
-
-## 🎯 **專案亮點**
-
-### **🏆 核心功能**
-- **多模型比較**: Random Forest、PyTorch LSTM、PyTorch Transformer、QNN量子神經網絡
-- **穩定預測表現**: Random Forest在3Pool測試中達到69.28%準確率
-- **量子機器學習**: 集成PennyLane量子計算框架，探索QNN在金融預測的潛力
-- **完整數據管道**: 37個Curve池子歷史數據自動收集與緩存  
-- **智能特徵工程**: 25個時間序列特徵，包含技術指標和流動性指標
-- **實戦驗證**: 基於3Pool的1460條真實數據記錄完整年度測試
-
-### **🤖 模型性能對比 (基於3Pool單池子測試)**
-
-| 模型 | 實際準確率 | 訓練時間 | 特色 | 狀態 |
-|------|-----------|----------|------|------|
-| **Random Forest** | **69.28%** | **2分鐘** | 快速穩健，實際最佳 | 🏆 **推薦** |
-| **LSTM (PyTorch)** | **44.19%** | **5-10分鐘** | 需要調參優化 | ⚠️ **改進中** |
-| **Transformer (PyTorch)** | **54.26%** | **10-15分鐘** | 潛力大，需要調優 | 🔧 **調優中** |
-| **QNN (量子神經網絡)** | **待測試** | **15-30分鐘** | 前沿量子機器學習 | 🌌 **實驗性** |
-
-> **⚠️ 重要說明**: 以上結果僅基於**3Pool池子**的測試，不是37個池子的平均結果。不同池子的最佳模型可能有所差異。
-
-> **💡 實際測試發現**: Random Forest在3Pool的Curve Virtual Price預測任務中表現最穩定，深度學習模型可能需要更多調參和特徵工程
-
-> **🌌 QNN說明**: 量子神經網絡需要安裝PennyLane (`pip install pennylane`)，代表量子機器學習的前沿探索
+> 🚀 **Predict Curve Pool Virtual Price changes using Random Forest, LSTM, Transformer and QNN (Quantum Neural Network) models**
 
 ---
 
-## 📊 **實際運行結果**
+## 🌐 Language Selection
+- [English](README.md) (Current)
+- [中文](README_CN.md)
 
-### **🎯 3Pool實際測試結果 (2024-07-20)**
+---
+
+## ⚡ **Quick Start - One Command to Get All Results**
+
+### **🎯 Zero-Configuration Full Dataset Analysis**
+
+Want to get comprehensive results for all 37 Curve pools with 6 different models? Just run one command:
+
+```bash
+# 🚀 One command to get everything
+python start_full_batch.py
+```
+
+### **📊 What You'll Get**
+
+After running the command (2-4 hours), you'll have:
+
+| File | Description | Content |
+|------|-------------|---------|
+| **`realtime_results.csv`** | **Complete Results** | All 168 model-pool combinations with detailed metrics |
+| **`averaged_results.csv`** | **Organized Results** | Pool-model averages + overall model averages across all pools |
+
+### **🔍 Sample Output Structure**
+
+**`realtime_results.csv`** (168 rows):
+```csv
+dataset,pool_name,model,test_mae,test_rmse,test_direction_acc,train_mae,train_rmse,train_direction_acc
+frax_self_built_historical,frax,Random Forest,1.778379,2.209900,67.320261,0.760135,0.972538,90.522876
+frax_self_built_historical,frax,XGBoost,1.815513,2.267751,69.281046,0.007879,0.011862,100.0
+...
+```
+
+**`averaged_results.csv`** (174 rows):
+```csv
+pool_name,model,test_mae,test_rmse,test_direction_acc,train_mae,train_rmse,train_direction_acc
+3pool,Random Forest,1.791231,2.270276,69.281046,0.863183,1.119448,87.091503
+3pool,XGBoost,1.825680,2.300439,71.241830,0.007635,0.011407,99.836601
+...
+ALL_POOLS_AVERAGE,Random Forest,1.765342,2.215262,71.358543,0.807779,1.035257,90.190243
+ALL_POOLS_AVERAGE,XGBoost,1.801892,2.269673,71.568627,0.007687,0.011532,99.854108
+```
+
+### **🎯 Key Results You'll See**
+
+**🏆 Best Performing Models Across All Pools:**
+- **Random Forest**: ~71.4% average accuracy
+- **XGBoost**: ~71.6% average accuracy  
+- **LSTM**: ~51.2% average accuracy
+- **Transformer**: ~49.8% average accuracy
+- **QNN**: ~49.8% average accuracy
+- **QSVM-QNN**: ~49.4% average accuracy
+
+**📈 Pool Performance Insights:**
+- Which pools are easiest/hardest to predict
+- Which models work best for different pool types
+- Complete performance ranking across all 37 pools
+
+### **💡 Pro Tips**
+
+1. **Monitor Progress**: Check `realtime_results.csv` during execution to see results as they complete
+2. **Backup Safety**: The script automatically backs up previous results
+3. **Interrupt Safe**: You can stop anytime and resume later
+4. **Resource Usage**: Requires ~8GB RAM and 2-4 hours runtime
+
+### **🔧 If You Want More Control**
+
+For custom analysis or single pool testing, see the detailed usage guide below.
+
+---
+
+## 🎯 **Project Highlights**
+
+### **🏆 Core Features**
+- **Multi-Model Comparison**: Random Forest, PyTorch LSTM, PyTorch Transformer, QNN Quantum Neural Network
+- **Stable Prediction Performance**: Random Forest achieves 69.28% accuracy in 3Pool testing
+- **Quantum Machine Learning**: Integrated PennyLane quantum computing framework, exploring QNN potential in financial prediction
+- **Complete Data Pipeline**: Automatic collection and caching of historical data from 37 Curve pools
+- **Intelligent Feature Engineering**: 25 time series features including technical indicators and liquidity metrics
+- **Real-World Validation**: Complete annual testing based on 1460 real data records from 3Pool
+
+### **🤖 Model Performance Comparison (Based on 3Pool Single Pool Testing)**
+
+| Model | Actual Accuracy | Training Time | Features | Status |
+|-------|----------------|---------------|----------|--------|
+| **Random Forest** | **69.28%** | **2 minutes** | Fast and robust, best in practice | 🏆 **Recommended** |
+| **LSTM (PyTorch)** | **44.19%** | **5-10 minutes** | Needs parameter tuning | ⚠️ **Improving** |
+| **Transformer (PyTorch)** | **54.26%** | **10-15 minutes** | High potential, needs optimization | 🔧 **Tuning** |
+| **QNN (Quantum Neural Network)** | **Pending Test** | **15-30 minutes** | Cutting-edge quantum machine learning | 🌌 **Experimental** |
+
+> **⚠️ Important Note**: The above results are based on **3Pool testing only**, not the average of 37 pools. Different pools may have different optimal models.
+
+> **💡 Actual Test Findings**: Random Forest shows the most stable performance in 3Pool Curve Virtual Price prediction tasks. Deep learning models may need more parameter tuning and feature engineering.
+
+> **🌌 QNN Note**: Quantum Neural Networks require PennyLane installation (`pip install pennylane`), representing cutting-edge exploration in quantum machine learning.
+
+---
+
+## 📊 **Actual Running Results**
+
+### **🎯 3Pool Actual Test Results (2024-07-20)**
 
 ```
-🚀 Curve Virtual Price預測 - 純PyTorch模型比較演示
+🚀 Curve Virtual Price Prediction - Pure PyTorch Model Comparison Demo
 ================================================================================
-✅ 數據載入成功: 1460 條記錄 (完整一年歷史數據)
-📅 時間範圍: 2024-07-20 到 2025-07-20
-🔧 特徵工程處理後: 765 條有效記錄
-📊 訓練集: 612 樣本 | 測試集: 153 樣本
+✅ Data loading successful: 1460 records (complete one-year historical data)
+📅 Time range: 2024-07-20 to 2025-07-20
+🔧 After feature engineering: 765 valid records
+📊 Training set: 612 samples | Test set: 153 samples
 
-📊 模型性能比較結果:
+📊 Model Performance Comparison Results:
 ================================================================================
-| 模型                    | 測試準確率 | 訓練準確率 | MAE   | RMSE  | 評估    |
-|------------------------|-----------|-----------|-------|-------|---------|
-| 🌳 Random Forest       | 69.28%    | 87.09%    | 1.791 | 2.270 | 🏆 最佳  |
-| 🔮 Transformer (PyTorch)| 54.26%    | 50.34%    | 2.234 | 2.877 | ⚖️ 中等  |
-| 🧠 LSTM (PyTorch)      | 44.19%    | 76.36%    | 2.777 | 3.480 | ⚠️ 待改進 |
+| Model                    | Test Accuracy | Train Accuracy | MAE   | RMSE  | Evaluation |
+|------------------------|---------------|----------------|-------|-------|------------|
+| 🌳 Random Forest       | 69.28%        | 87.09%         | 1.791 | 2.270 | 🏆 Best     |
+| 🔮 Transformer (PyTorch)| 54.26%        | 50.34%         | 2.234 | 2.877 | ⚖️ Medium   |
+| 🧠 LSTM (PyTorch)      | 44.19%        | 76.36%         | 2.777 | 3.480 | ⚠️ Needs Improvement |
 
-🏆 最佳模型: Random Forest
-🎯 最高準確率: 69.28% (超越隨機基線19.28%)
-⚡ 框架: 純PyTorch統一實現
+🏆 Best Model: Random Forest
+🎯 Highest Accuracy: 69.28% (19.28% above random baseline)
+⚡ Framework: Pure PyTorch unified implementation
 ```
 
-### **📈 關鍵發現**
+### **📈 Key Findings**
 
-1. **Random Forest表現最佳**: 準確率69.28%，遠超深度學習模型
-2. **深度學習模型挑戰**: LSTM和Transformer在此數據集上表現不如預期
-3. **過擬合問題**: 部分模型訓練準確率遠高於測試準確率
-4. **數據質量優秀**: 1460條記錄覆蓋完整年度週期
+1. **Random Forest Performs Best**: 69.28% accuracy, far exceeding deep learning models
+2. **Deep Learning Model Challenges**: LSTM and Transformer underperform on this dataset
+3. **Overfitting Issues**: Some models show much higher training accuracy than test accuracy
+4. **Excellent Data Quality**: 1460 records covering complete annual cycles
 
 ---
 
-## 📊 **數據集詳細說明**
+## 📊 **Dataset Detailed Description**
 
-### **🎯 測試數據概況 (以3Pool為例)**
+### **🎯 Test Data Overview (Using 3Pool as Example)**
 
-| 項目 | 詳細資訊 | 說明 |
-|------|----------|------|
-| **原始數據量** | **1,460條記錄** | 完整一年的歷史數據 |
-| **時間跨度** | **2024-07-20 至 2025-07-20** | 365天完整週期 |
-| **數據頻率** | **每6小時1個數據點** | 1天4個數據點 (365×4=1460) |
-| **特徵工程後** | **765條有效記錄** | 去除缺失值和異常值 |
-| **訓練集** | **612樣本 (80%)** | 用於模型訓練 |
-| **測試集** | **153樣本 (20%)** | 用於性能評估 |
-| **特徵數量** | **25個工程特徵** | 價格+技術指標+流動性+時間 |
+| Item | Detailed Information | Description |
+|------|---------------------|-------------|
+| **Original Data Volume** | **1,460 records** | Complete one-year historical data |
+| **Time Span** | **2024-07-20 to 2025-07-20** | Complete 365-day cycle |
+| **Data Frequency** | **1 data point every 6 hours** | 4 data points per day (365×4=1460) |
+| **After Feature Engineering** | **765 valid records** | Removed missing values and outliers |
+| **Training Set** | **612 samples (80%)** | For model training |
+| **Test Set** | **153 samples (20%)** | For performance evaluation |
+| **Feature Count** | **25 engineered features** | Price + technical indicators + liquidity + time |
 
-### **🏊 支持的池子範圍**
+### **🏊 Supported Pool Range**
 
 ```python
-數據收集覆蓋:
-├── 🎯 總池子數: 37個主流Curve池子
-├── 🔧 數據收集: 每個池子都可獨立收集1-365天數據
-├── 📊 特徵一致性: 所有池子使用相同的25個特徵
-├── 🎪 測試範圍: 目前展示3Pool測試結果
-├── ⚖️ 模型通用性: 相同模型架構適用於所有池子
-└── 🚀 擴展能力: 可批量對37個池子進行建模
+Data Collection Coverage:
+├── 🎯 Total Pools: 37 mainstream Curve pools
+├── 🔧 Data Collection: Each pool can collect 1-365 days of data independently
+├── 📊 Feature Consistency: All pools use the same 25 features
+├── 🎪 Test Range: Currently showing 3Pool test results
+├── ⚖️ Model Generality: Same model architecture applies to all pools
+└── 🚀 Expansion Capability: Can batch model all 37 pools
 
-主要池子類別:
-├── stable: 穩定幣池 (3pool, frax, lusd等) - 18個
-├── eth_pool: ETH質押池 (steth, reth等) - 8個  
-├── btc_pool: BTC相關池 (obtc, bbtc等) - 4個
-├── crypto: 加密貨幣池 (tricrypto等) - 4個
-├── metapool: 元池 (基於3pool) - 2個
-└── lending: 借貸池 (aave) - 1個
+Main Pool Categories:
+├── stable: Stablecoin pools (3pool, frax, lusd, etc.) - 18 pools
+├── eth_pool: ETH staking pools (steth, reth, etc.) - 8 pools
+├── btc_pool: BTC-related pools (obtc, bbtc, etc.) - 4 pools
+├── crypto: Cryptocurrency pools (tricrypto, etc.) - 4 pools
+├── metapool: Meta pools (based on 3pool) - 2 pools
+└── lending: Lending pools (aave) - 1 pool
 ```
 
-### **📋 數據收集與處理流程**
+### **📋 Data Collection and Processing Pipeline**
 
-**階段1: 原始數據收集**
+**Phase 1: Raw Data Collection**
 ```python
-# 每個池子的數據收集
-原始API數據 → 1460條記錄 (每6小時一個數據點)
-時間跨度: 完整365天
-數據來源: Curve Finance官方API
-數據字段: virtual_price, total_supply, coin_balances等
+# Data collection for each pool
+Raw API data → 1460 records (one data point every 6 hours)
+Time span: Complete 365 days
+Data source: Curve Finance official API
+Data fields: virtual_price, total_supply, coin_balances, etc.
 ```
 
-**階段2: 數據清理與特徵工程**
-```python  
-# 數據處理管道
-1460條原始記錄
-│
-├─► 時間序列處理 (lag features, moving averages)
-├─► 技術指標計算 (RSI, volatility, CV)
-├─► 流動性特徵提取 (supply changes, balance ratios)  
-├─► 時間特徵編碼 (hour, day, weekend)
-│
-└─► 765條有效記錄 (去除NaN和異常值)
-```
-
-**階段3: 訓練測試分割**
+**Phase 2: Data Cleaning and Feature Engineering**
 ```python
-# 時間序列分割策略
-765條有效記錄
+# Data processing pipeline
+1460 raw records
 │
-├─► 訓練集: 612樣本 (前80%時間)
-│   └─► 用於模型訓練和參數學習
+├─► Time series processing (lag features, moving averages)
+├─► Technical indicator calculation (RSI, volatility, CV)
+├─► Liquidity feature extraction (supply changes, balance ratios)
+├─► Time feature encoding (hour, day, weekend)
 │
-└─► 測試集: 153樣本 (後20%時間) 
-    └─► 用於模型性能評估 (未來數據模擬)
+└─► 765 valid records (removed NaN and outliers)
 ```
 
-### **🔍 單池子 vs 多池子分析說明**
-
-**🎯 當前展示結果**:
-- ✅ **單池子深度分析**: 以3Pool為示例的完整測試
-- ✅ **模型架構驗證**: 證明系統可運行完整ML pipeline
-- ✅ **性能基準建立**: Random Forest 69.28%準確率作為baseline
-
-**🚀 多池子擴展能力**:
+**Phase 3: Train-Test Split**
 ```python
-# 系統設計支持批量處理
+# Time series split strategy
+765 valid records
+│
+├─► Training set: 612 samples (first 80% of time)
+│   └─► For model training and parameter learning
+│
+└─► Test set: 153 samples (last 20% of time)
+    └─► For model performance evaluation (future data simulation)
+```
+
+### **🔍 Single Pool vs Multi-Pool Analysis Explanation**
+
+**🎯 Current Display Results**:
+- ✅ **Single Pool Deep Analysis**: Complete testing using 3Pool as example
+- ✅ **Model Architecture Validation**: Proving system can run complete ML pipeline
+- ✅ **Performance Baseline**: Random Forest 69.28% accuracy as baseline
+
+**🚀 Multi-Pool Expansion Capability**:
+```python
+# System design supports batch processing
 supported_pools = [
     '3pool', 'steth', 'tricrypto', 'frax', 'lusd',
-    # ... 總計37個池子
+    # ... Total 37 pools
 ]
 
-# 每個池子可獨立建模
+# Each pool can be modeled independently
 for pool in supported_pools:
     comparator = PyTorchModelComparison(pool_name=pool)
     results = comparator.run_complete_comparison()
-    
-# 可實現跨池子性能比較和投資機會排名
+
+# Can achieve cross-pool performance comparison and investment opportunity ranking
 ```
 
-**📊 預期多池子結果**:
-- 不同池子可能有不同的最佳模型 (有些適合RF，有些適合深度學習)
-- 穩定幣池 (如3pool) 可能更適合傳統ML
-- 波動性較大的池子 (如tricrypto) 可能更適合深度學習
-- 系統可生成37個池子的投資機會排名
+**📊 Expected Multi-Pool Results**:
+- Different pools may have different optimal models (some suitable for RF, others for deep learning)
+- Stablecoin pools (like 3pool) may be more suitable for traditional ML
+- High volatility pools (like tricrypto) may be more suitable for deep learning
+- System can generate investment opportunity rankings for all 37 pools
 
-### **⚠️ 數據局限性說明**
+### **⚠️ Data Limitations**
 
-**時間範圍**:
-- 當前數據: 1年歷史數據 (2024-2025)
-- 建議擴展: 2-3年數據可能提升深度學習模型性能
+**Time Range**:
+- Current data: 1 year historical data (2024-2025)
+- Recommended expansion: 2-3 years of data may improve deep learning model performance
 
-**數據頻率**:
-- 當前頻率: 6小時/次 (1天4個點)
-- 高頻交易: 可收集1小時或分鐘級數據 (需要更多存儲)
+**Data Frequency**:
+- Current frequency: Every 6 hours (4 points per day)
+- High-frequency trading: Can collect hourly or minute-level data (requires more storage)
 
-**市場環境**:
-- 訓練數據反映特定市場週期
-- 建議定期重訓練以適應市場變化
-- 極端市場事件可能影響模型表現
+**Market Environment**:
+- Training data reflects specific market cycles
+- Recommend regular retraining to adapt to market changes
+- Extreme market events may affect model performance
 
 ---
 
-## 🚀 **快速開始**
+## 🚀 **Quick Start**
 
-### **1️⃣ 環境設置**
+### **1️⃣ Environment Setup**
 ```bash
 git clone <repository>
 cd Quantum_curve_predict
 
-# 安裝基本依賴
+# Install basic dependencies
 pip install -r requirements.txt
 
-# 可選：安裝量子機器學習支持
+# Optional: Install quantum machine learning support
 pip install pennylane pennylane-lightning
 ```
 
-### **2️⃣ 數據收集**
+### **2️⃣ Data Collection**
 ```bash
-# 收集37個池子的歷史數據
+# Collect historical data for 37 pools
 python free_historical_data.py
 ```
 
-### **3️⃣ 模型比較**
+### **3️⃣ Model Comparison**
 ```bash
-# 運行完整模型比較 (Random Forest + LSTM + Transformer + QNN)
+# Run complete model comparison (Random Forest + LSTM + Transformer + QNN)
 python pytorch_model_comparison.py
 ```
 
-**🌌 量子模型說明**:
-- 如果安裝了PennyLane，系統會自動訓練QNN模型
-- 如果沒有PennyLane，系統會跳過QNN，只訓練其他3個模型
-- QNN訓練時間較長，請耐心等待
+**🌌 Quantum Model Note**:
+- If PennyLane is installed, the system will automatically train QNN models
+- If PennyLane is not available, the system will skip QNN and only train the other 3 models
+- QNN training takes longer, please be patient
 
-### **4️⃣ 查看結果**
-- 📈 `*_pytorch_comparison_predictions.png` - 模型預測對比圖
-- 📊 `*_pytorch_performance_comparison.png` - 性能比較圖表
-- 📋 `*_pytorch_comparison_report.txt` - 詳細分析報告
-- 📄 `*_pytorch_comparison_results.csv` - 結果數據表
+### **4️⃣ View Results**
+- 📈 `*_pytorch_comparison_predictions.png` - Model prediction comparison chart
+- 📊 `*_pytorch_performance_comparison.png` - Performance comparison chart
+- 📋 `*_pytorch_comparison_report.txt` - Detailed analysis report
+- 📄 `*_pytorch_comparison_results.csv` - Results data table
 
 ---
 
-## 📁 **項目結構**
+## 📁 **Project Structure**
 
 ```
 Quantum_curve_predict/
-├── 🔮 核心系統
-│   ├── free_historical_data.py       # 數據收集與管理 (37個池子)
-│   └── pytorch_model_comparison.py   # 純PyTorch模型比較系統
+├── 🔮 Core System
+│   ├── free_historical_data.py       # Data collection and management (37 pools)
+│   └── pytorch_model_comparison.py   # Pure PyTorch model comparison system
 │
-├── 📊 數據存储
-│   └── free_historical_cache/        # 歷史數據緩存目錄
-│       └── *.csv                     # 各池子歷史數據文件
+├── 📊 Data Storage
+│   └── free_historical_cache/        # Historical data cache directory
+│       └── *.csv                     # Historical data files for each pool
 │
-├── 📈 輸出結果
-│   ├── *_pytorch_comparison_predictions.png    # 預測對比圖
-│   ├── *_pytorch_performance_comparison.png    # 性能比較圖
-│   ├── *_pytorch_comparison_report.txt         # 分析報告
-│   └── *_pytorch_comparison_results.csv        # 結果數據
+├── 📈 Output Results
+│   ├── *_pytorch_comparison_predictions.png    # Prediction comparison chart
+│   ├── *_pytorch_performance_comparison.png    # Performance comparison chart
+│   ├── *_pytorch_comparison_report.txt         # Analysis report
+│   └── *_pytorch_comparison_results.csv        # Results data
 │
-├── 📋 文檔配置
-│   ├── requirements.txt              # 依賴包列表
-│   ├── README.md                     # 項目說明 (本文件)
-│   ├── USAGE.md                      # 快速使用指南
-│   └── .gitignore                    # Git配置
+├── 📋 Documentation and Configuration
+│   ├── requirements.txt              # Dependency package list
+│   ├── README.md                     # Project description (this file)
+│   ├── USAGE.md                      # Quick usage guide
+│   └── .gitignore                    # Git configuration
 │
-└── 🔧 系統文件
-    ├── .git/                         # Git倉庫
-    └── __pycache__/                  # Python緩存
+└── 🔧 System Files
+    ├── .git/                         # Git repository
+    └── __pycache__/                  # Python cache
 ```
 
 ---
 
-## 🔮 **模型架構詳解**
+## 🔮 **Model Architecture Details**
 
-### **🌳 Random Forest模型**
-- **算法**: 集成學習，100棵決策樹
-- **特徵**: 25個工程特徵（價格、技術指標、流動性）
-- **優勢**: 訓練快速、解釋性好、穩定可靠
-- **適用**: 快速基準測試和生產環境
+### **🌳 Random Forest Model**
+- **Algorithm**: Ensemble learning, 100 decision trees
+- **Features**: 25 engineered features (price, technical indicators, liquidity)
+- **Advantages**: Fast training, good interpretability, stable and reliable
+- **Application**: Quick baseline testing and production environment
 
-### **🧠 LSTM模型 (PyTorch)**
+### **🧠 LSTM Model (PyTorch)**
 ```python
-LSTM架構:
-├── 輸入層: 序列長度24, 特徵維度25
-├── LSTM層: 50個隱藏單元, 2層堆疊
-├── 全連接層: 25個神經元 + ReLU激活
-├── 輸出層: 1個預測值
-└── 優化器: Adam, 學習率0.001
+LSTM Architecture:
+├── Input layer: Sequence length 24, feature dimension 25
+├── LSTM layer: 50 hidden units, 2 stacked layers
+├── Fully connected layer: 25 neurons + ReLU activation
+├── Output layer: 1 prediction value
+└── Optimizer: Adam, learning rate 0.001
 ```
 
-### **🔮 Transformer模型 (PyTorch)**
+### **🔮 Transformer Model (PyTorch)**
 ```python
-Transformer架構:
-├── 位置編碼: 正弦餘弦編碼
-├── 多頭注意力: 8個注意力頭
-├── 前饋網絡: 隱藏層維度128
-├── 層歸一化: 防止梯度消失
-└── 殘差連接: 提升訓練穩定性
+Transformer Architecture:
+├── Positional encoding: Sine-cosine encoding
+├── Multi-head attention: 8 attention heads
+├── Feed-forward network: Hidden layer dimension 128
+├── Layer normalization: Prevent gradient vanishing
+└── Residual connections: Improve training stability
 ```
 
-### **🌌 QNN量子神經網絡 (PyTorch + PennyLane)**
+### **🌌 QNN Quantum Neural Network (PyTorch + PennyLane)**
 ```python
-QNN混合架構:
-├── 經典預處理層: Linear(25 → 24) + Tanh激活
-├── 量子電路層: 4個量子比特 + 2層變分電路
-│   ├── 數據編碼: RY旋轉門編碼經典數據
-│   ├── 變分層: RX/RY/RZ旋轉門 (可訓練參數)
-│   ├── 糾纏層: CNOT門建立量子糾纏
-│   └── 測量: PauliZ期望值測量
-├── 經典後處理層: Linear(4 → 2) + ReLU + Linear(2 → 1)
-└── 優化器: Adam, 學習率0.01 (較高學習率)
+QNN Hybrid Architecture:
+├── Classical preprocessing layer: Linear(25 → 24) + Tanh activation
+├── Quantum circuit layer: 4 qubits + 2 variational circuit layers
+│   ├── Data encoding: RY rotation gate encoding classical data
+│   ├── Variational layer: RX/RY/RZ rotation gates (trainable parameters)
+│   ├── Entanglement layer: CNOT gates establish quantum entanglement
+│   └── Measurement: PauliZ expectation value measurement
+├── Classical post-processing layer: Linear(4 → 2) + ReLU + Linear(2 → 1)
+└── Optimizer: Adam, learning rate 0.01 (higher learning rate)
 
-量子特性:
-├── 量子態疊加: 同時探索多種解空間
-├── 量子糾纏: 捕獲特徵間的量子關聯
-├── 量子干涉: 增強有用信號、消除噪聲
-└── 變分優化: 經典-量子混合訓練
-```
-
----
-
-## 🏊 **支援的池子**
-
-### **🥇 主要池子 (高優先級)**
-- **3pool** (DAI/USDC/USDT) - 最大穩定幣池
-- **stETH** (ETH/stETH) - 最大ETH質押池  
-- **TriCrypto** (USDT/WBTC/WETH) - 主要加密貨幣池
-- **FRAX** (FRAX/USDC) - 算法穩定幣池
-- **LUSD** (LUSD/3pool) - Liquity協議池
-
-### **🥈 重要池子**
-- **AAVE, Compound, sUSD** - DeFi協議池
-- **ankrETH, rETH** - ETH質押衍生品池
-- **MIM, EURS** - 穩定幣和歐元池
-- **OBTC, BBTC** - 比特幣衍生品池
-
-### **📊 池子分類**
-```python
-支援的池子類型:
-├── stable: 穩定幣池 (18個池子)
-├── eth_pool: ETH相關池 (8個池子) 
-├── btc_pool: BTC相關池 (4個池子)
-├── crypto: 加密貨幣池 (4個池子)
-├── metapool: 元池 (2個池子)
-└── lending: 借貸池 (1個池子)
-
-總計: 37個池子完整數據支援
+Quantum Properties:
+├── Quantum state superposition: Simultaneously explore multiple solution spaces
+├── Quantum entanglement: Capture quantum correlations between features
+├── Quantum interference: Enhance useful signals, eliminate noise
+└── Variational optimization: Classical-quantum hybrid training
 ```
 
 ---
 
-## 💻 **詳細使用指南**
+## 🏊 **Supported Pools**
 
-### **🔧 數據收集系統**
+### **🥇 Main Pools (High Priority)**
+- **3pool** (DAI/USDC/USDT) - Largest stablecoin pool
+- **stETH** (ETH/stETH) - Largest ETH staking pool
+- **TriCrypto** (USDT/WBTC/WETH) - Main cryptocurrency pool
+- **FRAX** (FRAX/USDC) - Algorithmic stablecoin pool
+- **LUSD** (LUSD/3pool) - Liquity protocol pool
+
+### **🥈 Important Pools**
+- **AAVE, Compound, sUSD** - DeFi protocol pools
+- **ankrETH, rETH** - ETH staking derivative pools
+- **MIM, EURS** - Stablecoin and Euro pools
+- **OBTC, BBTC** - Bitcoin derivative pools
+
+### **📊 Pool Categories**
 ```python
-# 使用數據管理器
+Supported Pool Types:
+├── stable: Stablecoin pools (18 pools)
+├── eth_pool: ETH-related pools (8 pools)
+├── btc_pool: BTC-related pools (4 pools)
+├── crypto: Cryptocurrency pools (4 pools)
+├── metapool: Meta pools (2 pools)
+└── lending: Lending pools (1 pool)
+
+Total: Complete data support for 37 pools
+```
+
+---
+
+## 💻 **Detailed Usage Guide**
+
+### **🔧 Data Collection System**
+```python
+# Use data manager
 from free_historical_data import CurveFreeHistoricalDataManager
 
 manager = CurveFreeHistoricalDataManager()
 
-# 收集單個池子數據
+# Collect single pool data
 data = manager.get_comprehensive_free_data(
-    pool_name="3pool", 
+    pool_name="3pool",
     days=365
 )
 
-# 批量收集所有池子
+# Batch collect all pools
 batch_data = manager.get_all_main_pools_data(days=90)
 
-# 獲取可用池子列表
+# Get available pool list
 pools = manager.get_available_pools()
-print(f"支援 {len(pools)} 個池子")
+print(f"Support {len(pools)} pools")
 ```
 
-### **🤖 模型比較系統**
+### **🤖 Model Comparison System**
 ```python
-# 使用PyTorch模型比較器
+# Use PyTorch model comparator
 from pytorch_model_comparison import PyTorchModelComparison
 
-# 初始化比較器
+# Initialize comparator
 comparator = PyTorchModelComparison(
     pool_name='3pool',
-    sequence_length=24  # LSTM/Transformer序列長度
+    sequence_length=24  # LSTM/Transformer sequence length
 )
 
-# 運行完整比較
+# Run complete comparison
 results = comparator.run_complete_comparison()
 
-# 查看結果
-print("模型比較結果:")
+# View results
+print("Model comparison results:")
 for model_name, metrics in results.items():
-    print(f"{model_name}: 準確率 {metrics['accuracy']:.1%}")
+    print(f"{model_name}: Accuracy {metrics['accuracy']:.1%}")
 ```
 
-### **📊 實際使用示例 (基於測試結果)**
+### **📊 Practical Usage Example (Based on Test Results)**
 ```python
-# 基於實際結果，推薦使用方式
+# Based on actual results, recommended usage
 from pytorch_model_comparison import PyTorchModelComparison
 
-# 初始化 (使用3pool作為示例)
+# Initialize (using 3pool as example)
 comparator = PyTorchModelComparison(pool_name='3pool')
 
-# 方案1: 快速模式 - 只訓練Random Forest (推薦)
+# Option 1: Quick mode - Only train Random Forest (recommended)
 rf_results = comparator.train_random_forest()
-print(f"Random Forest準確率: {rf_results['accuracy']:.2%}")
+print(f"Random Forest accuracy: {rf_results['accuracy']:.2%}")
 
-# 方案2: 完整比較 - 訓練所有模型
+# Option 2: Complete comparison - Train all models
 results = comparator.run_complete_comparison()
-print("模型比較結果:")
+print("Model comparison results:")
 print(f"Random Forest: {results['Random Forest']['accuracy']:.2%}")
 print(f"LSTM: {results['LSTM (PyTorch)']['accuracy']:.2%}")
 print(f"Transformer: {results['Transformer (PyTorch)']['accuracy']:.2%}")
 
-# 方案3: 自定義調優深度學習模型
+# Option 3: Custom tune deep learning models
 comparator_optimized = PyTorchModelComparison(
     pool_name='3pool',
-    sequence_length=48,    # 增加序列長度
-    hidden_size=128,       # 增大隱藏層
-    learning_rate=0.0001,  # 降低學習率
-    epochs=200             # 增加訓練輪數
+    sequence_length=48,    # Increase sequence length
+    hidden_size=128,       # Increase hidden layer
+    learning_rate=0.0001,  # Lower learning rate
+    epochs=200             # Increase training epochs
 )
 
-# 生成可視化和報告
-comparator.visualize_predictions(last_n_points=153)  # 顯示測試集預測
-comparator.generate_report()  # 生成詳細報告
+# Generate visualizations and reports
+comparator.visualize_predictions(last_n_points=153)  # Show test set predictions
+comparator.generate_report()  # Generate detailed report
 ```
 
-### **🎯 實用建議**
+### **🎯 Practical Recommendations**
 ```python
-# 實際投資決策流程
+# Actual investment decision process
 def make_investment_decision(pool_name):
-    """基於實際測試結果的投資決策"""
+    """Investment decision based on actual test results"""
     comparator = PyTorchModelComparison(pool_name=pool_name)
     
-    # 主要使用Random Forest (準確率最高)
+    # Mainly use Random Forest (highest accuracy)
     rf_results = comparator.train_random_forest()
     
-    if rf_results['accuracy'] > 0.65:  # 65%以上準確率
+    if rf_results['accuracy'] > 0.65:  # Above 65% accuracy
         prediction = rf_results['prediction']
         confidence = rf_results['accuracy']
         
-        print(f"池子: {pool_name}")
-        print(f"預測變化: {prediction:+.3f}%")
-        print(f"模型準確率: {confidence:.1%}")
+        print(f"Pool: {pool_name}")
+        print(f"Predicted change: {prediction:+.3f}%")
+        print(f"Model accuracy: {confidence:.1%}")
         
         if confidence > 0.70:
-            return "建議投資"
+            return "Recommend investment"
         elif confidence > 0.65:
-            return "謹慎考慮"
+            return "Consider carefully"
     
-    return "暫不建議"
+    return "Not recommended"
 
-# 使用示例
+# Usage example
 decision = make_investment_decision('3pool')
-print(f"決策結果: {decision}")
+print(f"Decision result: {decision}")
 ```
 
 ---
 
-## 🔬 **特徵工程詳解**
+## 🔬 **Feature Engineering Details**
 
-### **📈 核心特徵類別**
+### **📈 Core Feature Categories**
 ```python
-特徵工程 (25個特徵):
-├── 價格特徵 (8個)
-│   ├── virtual_price_lag_1到24 (滯後特徵)
-│   ├── MA_7, MA_30, MA_168 (移動平均)
-│   └── price_change_24h (24小時變化率)
+Feature Engineering (25 features):
+├── Price features (8 features)
+│   ├── virtual_price_lag_1 to 24 (lag features)
+│   ├── MA_7, MA_30, MA_168 (moving averages)
+│   └── price_change_24h (24-hour change rate)
 │
-├── 技術指標 (6個) 
-│   ├── RSI_14 (相對強弱指標)
-│   ├── volatility_24h, volatility_168h (波動率)
-│   ├── price_change_positive/negative (方向分量)
-│   └── cv_24h, cv_168h (變異係數)
+├── Technical indicators (6 features)
+│   ├── RSI_14 (relative strength index)
+│   ├── volatility_24h, volatility_168h (volatility)
+│   ├── price_change_positive/negative (direction components)
+│   └── cv_24h, cv_168h (coefficient of variation)
 │
-├── 流動性特徵 (7個)
-│   ├── total_supply (總供應量)
-│   ├── coin_balances (各代幣餘額)
-│   ├── supply_change_rate (供應量變化率)
-│   └── balance_ratios (餘額比例)
+├── Liquidity features (7 features)
+│   ├── total_supply (total supply)
+│   ├── coin_balances (token balances)
+│   ├── supply_change_rate (supply change rate)
+│   └── balance_ratios (balance ratios)
 │
-└── 時間特徵 (4個)
-    ├── hour_of_day (小時週期性)
-    ├── day_of_week (工作日週期性)  
-    ├── day_of_month (月度週期性)
-    └── is_weekend (週末標記)
+└── Time features (4 features)
+    ├── hour_of_day (hourly periodicity)
+    ├── day_of_week (weekday periodicity)
+    ├── day_of_month (monthly periodicity)
+    └── is_weekend (weekend marker)
 ```
 
-### **🎯 特徵重要性分析**
-- **Top 5 重要特徵**:
-  1. `virtual_price_lag_1` (前1期價格)
-  2. `MA_7` (7天移動平均)
-  3. `RSI_14` (技術指標)
-  4. `volatility_24h` (24小時波動率)
-  5. `total_supply` (流動性指標)
+### **🎯 Feature Importance Analysis**
+- **Top 5 Important Features**:
+  1. `virtual_price_lag_1` (previous period price)
+  2. `MA_7` (7-day moving average)
+  3. `RSI_14` (technical indicator)
+  4. `volatility_24h` (24-hour volatility)
+  5. `total_supply` (liquidity indicator)
 
 ---
 
-## 📈 **投資策略建議**
+## 📈 **Investment Strategy Recommendations**
 
-### **🎯 基於3Pool實際測試結果的投資策略**
+### **🎯 Investment Strategy Based on 3Pool Actual Test Results**
 
-**🏆 推薦策略** (基於3Pool測試 - Random Forest，準確率69.28%):
-- 主要依靠Random Forest模型預測3Pool走勢
-- MAE: 1.791，RMSE: 2.270 (預測誤差相對較小)
-- 穩定性高，無過擬合問題
-- **建議**: 可作為3Pool投資的主要決策依據
+**🏆 Recommended Strategy** (Based on 3Pool testing - Random Forest, 69.28% accuracy):
+- Mainly rely on Random Forest model to predict 3Pool trends
+- MAE: 1.791, RMSE: 2.270 (relatively small prediction errors)
+- High stability, no overfitting issues
+- **Recommendation**: Can be used as main decision basis for 3Pool investment
 
-**⚖️ 審慎策略** (深度學習模型在3Pool的表現):
-- Transformer在3Pool準確率54.26%，僅略高於隨機
-- LSTM在3Pool準確率44.19%，低於隨機基線
-- **建議**: 對3Pool僅作參考，不建議單獨使用
+**⚖️ Conservative Strategy** (Deep learning model performance in 3Pool):
+- Transformer accuracy in 3Pool: 54.26%, only slightly above random
+- LSTM accuracy in 3Pool: 44.19%, below random baseline
+- **Recommendation**: Only for reference in 3Pool, not recommended for standalone use
 
-**🔧 改進方向** (針對3Pool優化深度學習性能):
-- 調整超參數 (學習率、網絡層數、序列長度)
-- 增加特徵工程 (外部市場數據、技術指標)
-- 嘗試不同架構 (GRU、Transformer-XL、ensemble)
-- **目標**: 將3Pool深度學習模型準確率提升至70%+
+**🔧 Improvement Directions** (Optimize deep learning performance for 3Pool):
+- Adjust hyperparameters (learning rate, network layers, sequence length)
+- Enhance feature engineering (external market data, technical indicators)
+- Try different architectures (GRU, Transformer-XL, ensemble)
+- **Goal**: Improve 3Pool deep learning model accuracy to 70%+
 
-**🌐 多池子策略考慮**:
-- 不同池子可能有不同的最佳模型
-- ETH類池子(stETH)可能更適合深度學習
-- 穩定幣池(3pool)目前Random Forest表現最佳
-- **建議**: 逐個池子測試找出最佳模型組合
+**🌐 Multi-Pool Strategy Considerations**:
+- Different pools may have different optimal models
+- ETH-type pools (stETH) may be more suitable for deep learning
+- Stablecoin pools (3pool) currently perform best with Random Forest
+- **Recommendation**: Test each pool individually to find optimal model combinations
 
-### **⚠️ 風險管理**
+### **⚠️ Risk Management**
 ```python
-風險控制策略:
-├── 資金配置: 單池子不超過30%
-├── 止損設置: 虧損超過3%立即止損
-├── 時間控制: 預測週期不超過24小時
-├── 模型驗證: 定期回測模型效能
-└── 市場監控: 關注異常市場事件
+Risk Control Strategy:
+├── Capital allocation: No more than 30% per pool
+├── Stop loss: Immediate stop loss if loss exceeds 3%
+├── Time control: Prediction period not exceeding 24 hours
+├── Model validation: Regular backtesting of model performance
+└── Market monitoring: Monitor abnormal market events
 ```
 
 ---
 
-## 🔧 **進階功能**
+## 🔧 **Advanced Features**
 
-### **🎨 自定義參數**
+### **🎨 Custom Parameters**
 ```python
-# 調整LSTM參數
+# Adjust LSTM parameters
 comparator = PyTorchModelComparison(
     pool_name='steth',
-    sequence_length=12,     # 序列長度
-    hidden_size=100,        # LSTM隱藏層大小  
-    num_layers=3,           # LSTM層數
-    learning_rate=0.0005,   # 學習率
-    epochs=50,              # 訓練輪數
-    batch_size=64           # 批次大小
+    sequence_length=12,     # Sequence length
+    hidden_size=100,        # LSTM hidden layer size
+    num_layers=3,           # LSTM layers
+    learning_rate=0.0005,   # Learning rate
+    epochs=50,              # Training epochs
+    batch_size=64           # Batch size
 )
 
-# 調整Transformer參數
+# Adjust Transformer parameters
 comparator.transformer_params = {
-    'n_heads': 4,           # 注意力頭數
-    'd_ff': 64,             # 前饋網絡維度
-    'dropout': 0.1,         # Dropout比例
-    'max_length': 100       # 最大序列長度
+    'n_heads': 4,           # Number of attention heads
+    'd_ff': 64,             # Feed-forward network dimension
+    'dropout': 0.1,         # Dropout ratio
+    'max_length': 100       # Maximum sequence length
 }
 ```
 
-### **📊 批量分析**
+### **📊 Batch Analysis**
 ```python
-# 批量分析多個池子
+# Batch analyze multiple pools
 pools = ['3pool', 'steth', 'tricrypto', 'frax']
 results = {}
 
 for pool in pools:
     comparator = PyTorchModelComparison(pool_name=pool)
     results[pool] = comparator.run_complete_comparison()
-    
-# 生成綜合報告
+
+# Generate comprehensive report
 generate_multi_pool_report(results)
 ```
 
-### **🔄 定時預測**
+### **🔄 Scheduled Prediction**
 ```bash
-# 設置每日自動預測 (crontab)
+# Set daily automatic prediction (crontab)
 0 8 * * * cd /path/to/Quantum_curve_predict && python pytorch_model_comparison.py
 
-# 每週模型重訓練
+# Weekly model retraining
 0 2 * * 0 cd /path/to/Quantum_curve_predict && python pytorch_model_comparison.py --retrain
 ```
 
 ---
 
-## 🛠️ **開發指南**
+## 🛠️ **Development Guide**
 
-### **🔧 環境要求**
+### **🔧 Environment Requirements**
 
-**最低要求**:
+**Minimum Requirements**:
 ```
 - Python 3.8+
 - 8GB RAM
-- 2GB 磁碟空間
-- CPU: 4核心
+- 2GB disk space
+- CPU: 4 cores
 ```
 
-**推薦配置**:
+**Recommended Configuration**:
 ```
 - Python 3.9+
-- 16GB RAM  
-- 5GB 磁碟空間
-- GPU: CUDA支援 (可選，加速深度學習)
+- 16GB RAM
+- 5GB disk space
+- GPU: CUDA support (optional, accelerates deep learning)
 ```
 
-### **🚀 性能優化**
+### **🚀 Performance Optimization**
 
-**CPU優化**:
+**CPU Optimization**:
 ```python
-# 啟用多核心處理
+# Enable multi-core processing
 import os
 os.environ['OMP_NUM_THREADS'] = '4'
 
-# Random Forest並行化
+# Random Forest parallelization
 rf = RandomForestRegressor(n_jobs=-1)
 ```
 
-**GPU加速** (如果可用):
+**GPU Acceleration** (if available):
 ```python
-# 檢查CUDA可用性
+# Check CUDA availability
 import torch
 if torch.cuda.is_available():
     device = torch.device('cuda')
-    print(f"使用GPU: {torch.cuda.get_device_name()}")
+    print(f"Using GPU: {torch.cuda.get_device_name()}")
 else:
     device = torch.device('cpu')
-    print("使用CPU訓練")
+    print("Using CPU for training")
 ```
 
-### **📈 模型改進方向**
+### **📈 Model Improvement Directions**
 
-1. **特徵工程擴展**:
-   - 外部市場數據 (BTC/ETH價格)
-   - 鏈上指標 (TVL變化、交易量)
-   - 宏觀經濟指標 (利率、通膨率)
+1. **Feature Engineering Expansion**:
+   - External market data (BTC/ETH prices)
+   - On-chain metrics (TVL changes, trading volume)
+   - Macroeconomic indicators (interest rates, inflation)
 
-2. **模型架構優化**:
-   - 嘗試GRU替代LSTM
-   - 實現Transformer-XL
-   - 集成學習 (模型融合)
+2. **Model Architecture Optimization**:
+   - Try GRU instead of LSTM
+   - Implement Transformer-XL
+   - Ensemble learning (model fusion)
 
-3. **預測目標擴展**:
-   - 多時間框架預測 (1h, 6h, 24h)
-   - 波動率預測
-   - 異常檢測
+3. **Prediction Target Expansion**:
+   - Multi-timeframe prediction (1h, 6h, 24h)
+   - Volatility prediction
+   - Anomaly detection
 
 ---
 
-## 🧪 **測試與驗證**
+## 🧪 **Testing and Validation**
 
-### **📊 回測驗證**
+### **📊 Backtesting Validation**
 ```python
-# 執行歷史回測
+# Execute historical backtesting
 def backtest_strategy(pool_name, start_date, end_date):
     """
-    回測投資策略
-    - 使用歷史數據模擬預測
-    - 計算實際收益率
-    - 評估策略效能
+    Backtest investment strategy
+    - Use historical data to simulate predictions
+    - Calculate actual returns
+    - Evaluate strategy performance
     """
     pass
 
-# 示例
+# Example
 results = backtest_strategy('3pool', '2024-01-01', '2024-06-30')
-print(f"回測收益率: {results['return']:.2%}")
-print(f"最大回撤: {results['max_drawdown']:.2%}")
+print(f"Backtest return: {results['return']:.2%}")
+print(f"Maximum drawdown: {results['max_drawdown']:.2%}")
 ```
 
-### **⚡ 快速測試**
+### **⚡ Quick Testing**
 ```bash
-# 快速功能測試 (使用少量數據)
+# Quick functionality test (using small amount of data)
 python pytorch_model_comparison.py --quick-test
 
-# 數據完整性檢查
+# Data integrity check
 python free_historical_data.py --validate
 
-# 模型一致性測試
+# Model consistency test
 python pytorch_model_comparison.py --consistency-test
 ```
 
 ---
 
-## 📞 **故障排除**
+## 📞 **Troubleshooting**
 
-### **🔥 常見問題**
+### **🔥 Common Issues**
 
-**Q: PyTorch安裝失敗**
+**Q: PyTorch installation fails**
 ```bash
-# CPU版本
+# CPU version
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 
-# GPU版本 (CUDA 11.8)
+# GPU version (CUDA 11.8)
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 ```
 
-**Q: 記憶體不足**
+**Q: Insufficient memory**
 ```python
-# 減少批次大小
+# Reduce batch size
 comparator = PyTorchModelComparison(batch_size=16)
 
-# 減少序列長度
+# Reduce sequence length
 comparator = PyTorchModelComparison(sequence_length=12)
 ```
 
-**Q: 訓練速度太慢**
+**Q: Training too slow**
 ```python
-# 減少訓練輪數
+# Reduce training epochs
 comparator = PyTorchModelComparison(epochs=20)
 
-# 使用更簡單的模型
-comparator.train_random_forest()  # 僅訓練RF模型
+# Use simpler model
+comparator.train_random_forest()  # Only train RF model
 ```
 
-**Q: 深度學習模型準確率低 (如LSTM 44%, Transformer 54%)**
+**Q: Deep learning model low accuracy (e.g., LSTM 44%, Transformer 54%)**
 ```python
-# 方法1: 調整超參數
+# Method 1: Adjust hyperparameters
 comparator = PyTorchModelComparison(
-    sequence_length=48,      # 增加序列長度
-    hidden_size=128,         # 增大隱藏層
-    learning_rate=0.0001,    # 降低學習率
-    epochs=200,              # 增加訓練輪數
-    batch_size=32            # 調整批次大小
+    sequence_length=48,      # Increase sequence length
+    hidden_size=128,         # Increase hidden layer
+    learning_rate=0.0001,    # Lower learning rate
+    epochs=200,              # Increase training epochs
+    batch_size=32            # Adjust batch size
 )
 
-# 方法2: 改進特徵工程
-# 添加外部市場數據 (BTC/ETH價格)
-# 增加更多技術指標 (MACD, Bollinger Bands)
-# 標準化數據處理
+# Method 2: Improve feature engineering
+# Add external market data (BTC/ETH prices)
+# Add more technical indicators (MACD, Bollinger Bands)
+# Standardize data processing
 
-# 方法3: 使用Random Forest (實測最佳)
-# 對於Curve Virtual Price預測，Random Forest表現最穩定
-comparator.train_random_forest()  # 推薦使用
+# Method 3: Use Random Forest (best in practice)
+# For Curve Virtual Price prediction, Random Forest performs most stably
+comparator.train_random_forest()  # Recommended
 ```
 
-**Q: 為什麼Random Forest在3Pool中比深度學習效果好**
+**Q: Why does Random Forest perform better than deep learning in 3Pool**
 ```text
-可能原因 (基於3Pool測試結果):
-1. 3Pool數據集規模相對較小 (765條記錄)
-2. 特徵維度適中 (25個特徵)，RF更適合表格數據
-3. 3Pool作為穩定幣池，時間序列複雜度較低
-4. 深度學習需要更多調參和特徵工程
-5. 3Pool的Virtual Price變化相對穩定，不需要複雜模型
-6. 不同池子可能有不同結果 (如ETH類池子可能更適合深度學習)
+Possible reasons (based on 3Pool test results):
+1. 3Pool dataset size is relatively small (765 records)
+2. Feature dimension is moderate (25 features), RF more suitable for tabular data
+3. 3Pool as stablecoin pool has lower time series complexity
+4. Deep learning needs more parameter tuning and feature engineering
+5. 3Pool Virtual Price changes are relatively stable, don't need complex models
+6. Different pools may have different results (ETH-type pools may be more suitable for deep learning)
 
-建議: 
-- 對於3Pool等穩定幣池，優先使用Random Forest
-- 對於高波動池子 (如tricrypto)，可嘗試深度學習
-- 建議逐個池子測試找出最佳模型
+Recommendations:
+- For stablecoin pools like 3Pool, prioritize Random Forest
+- For high volatility pools (like tricrypto), try deep learning
+- Recommend testing each pool individually to find optimal models
 ```
 
-### **🔍 日志和調試**
+### **🔍 Logging and Debugging**
 ```python
-# 啟用詳細日誌
+# Enable detailed logging
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
-# 保存訓練過程
+# Save training process
 comparator.save_training_logs = True
 comparator.run_complete_comparison()
 ```
 
 ---
 
-## 📚 **學習資源**
+## 📚 **Learning Resources**
 
-### **📖 相關文檔**
-- [PyTorch官方文檔](https://pytorch.org/docs/)
-- [Curve Finance文檔](https://curve.readthedocs.io/)
-- [Transformer論文](https://arxiv.org/abs/1706.03762)
-- [時間序列預測最佳實踐](https://machinelearningmastery.com/time-series-forecasting/)
+### **📖 Related Documentation**
+- [PyTorch Official Documentation](https://pytorch.org/docs/)
+- [Curve Finance Documentation](https://curve.readthedocs.io/)
+- [Transformer Paper](https://arxiv.org/abs/1706.03762)
+- [Time Series Forecasting Best Practices](https://machinelearningmastery.com/time-series-forecasting/)
 
-### **🎓 延伸學習**
-1. **深度學習**:
-   - LSTM vs GRU比較
-   - Attention機制原理
-   - 序列到序列模型
+### **🎓 Extended Learning**
+1. **Deep Learning**:
+   - LSTM vs GRU comparison
+   - Attention mechanism principles
+   - Sequence-to-sequence models
 
-2. **量化金融**:
-   - DeFi流動性挖礦策略
-   - 風險管理模型
-   - 投資組合優化
+2. **Quantitative Finance**:
+   - DeFi liquidity mining strategies
+   - Risk management models
+   - Portfolio optimization
 
-3. **時間序列**:
-   - ARIMA模型
-   - Prophet預測
-   - 季節性分解
-
----
-
-## 📊 **專案成果總結**
-
-### **✅ 核心成就**
-- ✨ **統一框架**: 純PyTorch實現，避免框架衝突
-- 🏆 **實測驗證**: 3Pool測試中Random Forest達到69.28%穩定準確率
-- 🚀 **完整流程**: 數據收集→特徵工程→模型訓練→結果可視化
-- 📊 **37個池子**: 完整覆蓋主流Curve池子，已完成3Pool的1460條實際數據驗證
-- 💻 **易於使用**: 兩個核心文件，簡潔高效
-
-### **📈 技術指標**
-```
-🎯 實際測試數據 (3Pool):
-├── 原始數據: 1460條記錄 (完整年度數據)
-├── 時間跨度: 2024-07-20 到 2025-07-20 
-├── 特徵工程後: 765條有效記錄
-├── 訓練/測試: 612/153樣本 (80/20分割)
-├── 特徵數量: 25個工程特徵
-├── 模型數量: 4個模型 (RF + LSTM + Transformer + QNN)
-├── 最佳準確率: 69.28% (Random Forest)
-└── 處理速度: 完整訓練<30分鐘 (含QNN)
-
-🏊 數據收集能力:
-├── 支援池子: 37個主流Curve池子
-├── 數據質量: 高精度歷史數據
-└── 緩存系統: 智能避重複下載
-
-🌌 量子計算能力:
-├── 量子框架: PennyLane + PyTorch集成
-├── 量子比特: 4個模擬量子比特
-├── 量子電路: 變分量子電路 (VQC)
-└── 混合計算: 經典-量子混合優化
-```
-
-### **💰 商業價值**
-- **個人投資**: 提升投資決策質量
-- **系統開發**: 完整的預測系統框架
-- **數據資產**: 高質量歷史數據庫
-- **模型庫**: 可重複使用的預測模型
+3. **Time Series**:
+   - ARIMA models
+   - Prophet forecasting
+   - Seasonal decomposition
 
 ---
 
-## 🚀 **立即開始**
+## 📊 **Project Achievement Summary**
+
+### **✅ Core Achievements**
+- ✨ **Unified Framework**: Pure PyTorch implementation, avoiding framework conflicts
+- 🏆 **Real-World Validation**: Random Forest achieves stable 69.28% accuracy in 3Pool testing
+- 🚀 **Complete Pipeline**: Data collection → Feature engineering → Model training → Result visualization
+- 📊 **37 Pools**: Complete coverage of mainstream Curve pools, completed 1460 real data validation for 3Pool
+- 💻 **Easy to Use**: Two core files, concise and efficient
+
+### **📈 Technical Indicators**
+```
+🎯 Actual Test Data (3Pool):
+├── Raw data: 1460 records (complete annual data)
+├── Time span: 2024-07-20 to 2025-07-20
+├── After feature engineering: 765 valid records
+├── Train/Test: 612/153 samples (80/20 split)
+├── Feature count: 25 engineered features
+├── Model count: 4 models (RF + LSTM + Transformer + QNN)
+├── Best accuracy: 69.28% (Random Forest)
+└── Processing speed: Complete training <30 minutes (including QNN)
+
+🏊 Data Collection Capability:
+├── Supported pools: 37 mainstream Curve pools
+├── Data quality: High-precision historical data
+└── Cache system: Smart duplicate download avoidance
+
+🌌 Quantum Computing Capability:
+├── Quantum framework: PennyLane + PyTorch integration
+├── Qubits: 4 simulated qubits
+├── Quantum circuit: Variational quantum circuit (VQC)
+└── Hybrid computing: Classical-quantum hybrid optimization
+```
+
+### **💰 Business Value**
+- **Personal Investment**: Improve investment decision quality
+- **System Development**: Complete prediction system framework
+- **Data Assets**: High-quality historical database
+- **Model Library**: Reusable prediction models
+
+---
+
+## 🚀 **Get Started Now**
 
 ```bash
-# 🎯 三步開始使用
+# 🎯 Three steps to start using
 git clone <repository>
 cd Quantum_curve_predict
 pip install -r requirements.txt && python pytorch_model_comparison.py
 
-# 🎉 5分鐘即可看到預測結果！
+# 🎉 See prediction results in 5 minutes!
 ```
 
 ---
 
-## 📄 **授權條款**
+## 📄 **License Terms**
 
-MIT License - 開源免費使用，歡迎貢獻改進！
+MIT License - Open source free to use, welcome contributions and improvements!
 
 ---
 
-**🎊 恭喜！您現在擁有了一個精簡、高效、基於最新PyTorch技術的Curve預測系統！**
+**🎊 Congratulations! You now have a streamlined, efficient Curve prediction system based on the latest PyTorch technology!**
 
-*最後更新: 2024-07-20 | 版本: 3.0.0 精簡版* 
+*Last updated: 2024-07-20 | Version: 3.0.0 Lite Version* 
