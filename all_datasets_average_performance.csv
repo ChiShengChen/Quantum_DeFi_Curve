@@ -1,0 +1,7 @@
+model,test_mae_mean,test_mae_std,test_mae_count,test_rmse_mean,test_rmse_std,test_direction_acc_mean,test_direction_acc_std,train_mae_mean,train_mae_std,train_rmse_mean,train_rmse_std,train_direction_acc_mean,train_direction_acc_std
+LSTM (PyTorch),2.5685,0.316,84,3.2387,0.3865,51.2182,4.2079,1.6783,0.2454,2.1188,0.2954,72.2263,5.2715
+QNN (PyTorch+PennyLane),2.3321,0.2232,84,2.9288,0.2783,49.7693,4.4226,2.1322,0.072,2.678,0.0952,60.6272,2.4463
+QSVM-QNN (PyTorch+PennyLane),2.2593,0.2232,84,2.8441,0.2766,49.3909,3.6132,2.2475,0.0714,2.8282,0.0957,52.7677,1.7516
+Random Forest,1.7653,0.1271,84,2.2153,0.1484,71.3585,3.2972,0.8078,0.0369,1.0353,0.0452,90.1902,1.2099
+Transformer (PyTorch),2.3089,0.2411,84,2.9016,0.3037,49.7877,3.5337,2.1918,0.1498,2.7489,0.1867,56.3391,6.2239
+XGBoost,1.8019,0.1314,84,2.2697,0.1541,71.5686,3.2284,0.0077,0.0008,0.0115,0.0011,99.8541,0.1605

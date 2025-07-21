@@ -446,6 +446,29 @@ class PyTorchModelComparison:
         df = self.data.copy()
         df = df.sort_values('timestamp').reset_index(drop=True)
         
+        # 數據清理：明確定義要保留的數值列，排除所有字符串列
+        # 先識別並排除字符串列
+        string_columns = ['pool_address', 'pool_name', 'source', 'pool_type', 'priority']
+        df = df.drop(columns=[col for col in string_columns if col in df.columns], errors='ignore')
+        
+        # 定義數值列
+        numeric_columns = ['virtual_price', 'volume_24h', 'apy', 'total_supply']
+        
+        # 添加所有以_balance結尾的列
+        balance_columns = [col for col in df.columns if col.endswith('_balance')]
+        numeric_columns.extend(balance_columns)
+        
+        # 確保所有數值列存在且為數值型
+        for col in numeric_columns:
+            if col in df.columns:
+                df[col] = pd.to_numeric(df[col], errors='coerce')
+        
+        # 移除包含過多NaN的行
+        df = df.dropna(subset=['virtual_price', 'total_supply'])
+        
+        print(f"📊 清理後剩餘列: {list(df.columns)}")
+        print(f"📊 數據形狀: {df.shape}")
+        
         # 1. 滯後特徵 (Lag Features)
         for lag in [1, 6, 24, 168]:  # 1個點、6個點、24個點、168個點
             df[f'virtual_price_lag_{lag}'] = df['virtual_price'].shift(lag)
@@ -468,10 +491,18 @@ class PyTorchModelComparison:
         df['total_supply_ma_24'] = df['total_supply'].rolling(24).mean()
         
         # 6. 餘額特徵 (Balance Features)
-        token_columns = [col for col in df.columns if col.endswith('_balance')]
+        token_columns = [col for col in df.columns if col.endswith('_balance') and col in numeric_columns]
         if len(token_columns) >= 2:
-            df['balance_ratio'] = df[token_columns[0]] / df[token_columns[1]]
-            df['balance_imbalance'] = df[token_columns].std(axis=1) / df[token_columns].mean(axis=1)
+            # 只有當有至少2個餘額列時才計算比率特徵
+            try:
+                df['balance_ratio'] = df[token_columns[0]] / (df[token_columns[1]] + 1e-8)  # 避免除零
+                balance_mean = df[token_columns].mean(axis=1)
+                balance_std = df[token_columns].std(axis=1)
+                df['balance_imbalance'] = balance_std / (balance_mean + 1e-8)  # 避免除零
+            except Exception as e:
+                print(f"⚠️ 餘額特徵計算警告: {e}")
+        else:
+            print(f"⚠️ 餘額列不足，跳過餘額特徵 (找到{len(token_columns)}個)")
         
         # 7. 時間特徵 (Time Features)
         df['hour'] = df['timestamp'].dt.hour

@@ -1,6 +1,6 @@
 # 🚀 3pool 池子純PyTorch模型比較報告
 ============================================================
-生成時間: 2025-07-20 17:41:29.009211
+生成時間: 2025-07-20 18:03:01.166597
 框架: 純PyTorch實現 (Random Forest + PyTorch LSTM + PyTorch Transformer)
 數據期間: 365天
 預測目標: 未來6小時Virtual Price收益率
@@ -13,6 +13,10 @@
 📊 模型排名 (按準確率):
 2. XGBoost: 71.24% (MAE: 1.8257)
 1. Random Forest: 69.28% (MAE: 1.7912)
+3. LSTM (PyTorch): 56.59% (MAE: 2.4041)
+5. QNN (PyTorch+PennyLane): 51.16% (MAE: 2.3136)
+6. QSVM-QNN (PyTorch+PennyLane): 50.39% (MAE: 2.2343)
+4. Transformer (PyTorch): 49.61% (MAE: 2.2346)
 
 💡 建議:
 ✅ 最佳模型表現優秀，建議用於實際預測
