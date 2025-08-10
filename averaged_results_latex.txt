@@ -1,0 +1,232 @@
+% LaTeX longtable for averaged results
+% Generated from averaged_results.csv
+% Requires: \usepackage{longtable}
+
+% Set smaller font size for the table
+\small
+\begin{longtable}{@{}llrrrrrrr@{}}
+\caption{Averaged Results for Different Models Across All Pools} \label{tab:averaged_results} \\
+\toprule
+Pool & Model & Test MAE & Test RMSE & Test Acc. (\%) & Train MAE & Train RMSE & Train Acc. (\%) \\
+\midrule
+\endfirsthead
+
+\multicolumn{8}{c}%
+{\tablename\ \thetable\ -- \textit{Continued from previous page}} \\
+\toprule
+Pool & Model & Test MAE & Test RMSE & Test Acc. (\%) & Train MAE & Train RMSE & Train Acc. (\%) \\
+\midrule
+\endhead
+
+\midrule \multicolumn{8}{r}{\textit{Continued on next page}} \\
+\endfoot
+
+\bottomrule
+\endlastfoot
+
+3pool & LSTM (PyTorch) & 2.780 & 3.477 & 51.42 & 1.487 & 1.922 & 77.15 \\
+3pool & QNN (PyTorch+PennyLane) & 2.291 & 2.939 & 54.52 & 2.233 & 2.823 & 59.01 \\
+3pool & QSVM-QNN (PyTorch+PennyLane) & 2.234 & 2.874 & 50.90 & 2.317 & 2.938 & 52.38 \\
+3pool & Random Forest & 1.791 & 2.270 & 69.28 & 0.863 & 1.119 & 87.09 \\
+3pool & Transformer (PyTorch) & 2.238 & 2.878 & 49.87 & 2.316 & 2.933 & 51.42 \\
+3pool & XGBoost & 1.826 & 2.300 & 71.24 & 0.008 & 0.011 & 99.84 \\
+\midrule
+aave & LSTM (PyTorch) & 2.486 & 3.059 & 57.36 & 1.013 & 1.338 & 83.22 \\
+aave & QNN (PyTorch+PennyLane) & 2.133 & 2.692 & 49.35 & 2.128 & 2.689 & 59.69 \\
+aave & QSVM-QNN (PyTorch+PennyLane) & 2.142 & 2.703 & 47.80 & 2.222 & 2.852 & 55.39 \\
+aave & Random Forest & 1.591 & 2.074 & 71.24 & 0.769 & 1.009 & 90.85 \\
+aave & Transformer (PyTorch) & 2.262 & 2.835 & 51.94 & 2.122 & 2.688 & 62.59 \\
+aave & XGBoost & 1.667 & 2.163 & 71.90 & 0.006 & 0.010 & 100.00 \\
+\midrule
+ankrETH & LSTM (PyTorch) & 3.058 & 3.806 & 52.45 & 1.433 & 1.839 & 78.91 \\
+ankrETH & QNN (PyTorch+PennyLane) & 2.587 & 3.315 & 51.68 & 2.229 & 2.743 & 60.71 \\
+ankrETH & QSVM-QNN (PyTorch+PennyLane) & 2.553 & 3.238 & 43.93 & 2.308 & 2.845 & 52.72 \\
+ankrETH & Random Forest & 1.961 & 2.422 & 71.90 & 0.792 & 1.012 & 90.52 \\
+ankrETH & Transformer (PyTorch) & 2.601 & 3.282 & 51.68 & 2.291 & 2.815 & 56.58 \\
+ankrETH & XGBoost & 2.032 & 2.507 & 71.90 & 0.006 & 0.010 & 99.84 \\
+\midrule
+bbtc & LSTM (PyTorch) & 2.489 & 3.136 & 51.16 & 1.883 & 2.320 & 65.76 \\
+bbtc & QNN (PyTorch+PennyLane) & 2.336 & 2.911 & 52.45 & 2.088 & 2.595 & 61.22 \\
+bbtc & QSVM-QNN (PyTorch+PennyLane) & 2.371 & 2.923 & 43.15 & 2.189 & 2.721 & 54.14 \\
+bbtc & Random Forest & 1.760 & 2.183 & 73.20 & 0.745 & 0.958 & 90.20 \\
+bbtc & Transformer (PyTorch) & 2.487 & 3.152 & 49.87 & 1.953 & 2.438 & 65.65 \\
+bbtc & XGBoost & 1.742 & 2.161 & 76.47 & 0.008 & 0.012 & 99.84 \\
+\midrule
+compound & LSTM (PyTorch) & 2.744 & 3.507 & 51.16 & 1.538 & 1.985 & 75.06 \\
+compound & QNN (PyTorch+PennyLane) & 2.378 & 2.967 & 49.61 & 2.149 & 2.731 & 60.20 \\
+compound & QSVM-QNN (PyTorch+PennyLane) & 2.269 & 2.817 & 51.42 & 2.286 & 2.905 & 51.76 \\
+compound & Random Forest & 1.844 & 2.245 & 68.63 & 0.798 & 1.053 & 92.48 \\
+compound & Transformer (PyTorch) & 2.229 & 2.807 & 53.23 & 2.270 & 2.874 & 56.69 \\
+compound & XGBoost & 1.891 & 2.334 & 70.59 & 0.006 & 0.010 & 100.00 \\
+\midrule
+eurs & LSTM (PyTorch) & 2.586 & 3.214 & 46.51 & 1.802 & 2.267 & 73.19 \\
+eurs & QNN (PyTorch+PennyLane) & 2.285 & 2.836 & 49.87 & 2.187 & 2.754 & 62.70 \\
+eurs & QSVM-QNN (PyTorch+PennyLane) & 2.181 & 2.744 & 49.35 & 2.337 & 2.938 & 50.51 \\
+eurs & Random Forest & 1.692 & 2.127 & 76.47 & 0.845 & 1.072 & 89.05 \\
+eurs & Transformer (PyTorch) & 2.167 & 2.720 & 52.20 & 2.347 & 2.946 & 50.51 \\
+eurs & XGBoost & 1.772 & 2.260 & 74.51 & 0.009 & 0.013 & 99.84 \\
+\midrule
+frax & LSTM (PyTorch) & 2.195 & 2.866 & 53.23 & 2.029 & 2.534 & 64.40 \\
+frax & QNN (PyTorch+PennyLane) & 2.154 & 2.781 & 53.49 & 2.122 & 2.666 & 61.39 \\
+frax & QSVM-QNN (PyTorch+PennyLane) & 2.096 & 2.725 & 46.77 & 2.222 & 2.791 & 52.55 \\
+frax & Random Forest & 1.778 & 2.210 & 67.32 & 0.760 & 0.973 & 90.52 \\
+frax & Transformer (PyTorch) & 2.197 & 2.834 & 48.32 & 2.179 & 2.731 & 55.73 \\
+frax & XGBoost & 1.816 & 2.268 & 69.28 & 0.008 & 0.012 & 100.00 \\
+\midrule
+gusd & LSTM (PyTorch) & 2.569 & 3.188 & 46.51 & 1.673 & 2.053 & 71.37 \\
+gusd & QNN (PyTorch+PennyLane) & 2.347 & 2.889 & 45.99 & 2.053 & 2.535 & 61.90 \\
+gusd & QSVM-QNN (PyTorch+PennyLane) & 2.266 & 2.827 & 51.68 & 2.172 & 2.682 & 53.34 \\
+gusd & Random Forest & 1.718 & 2.184 & 69.93 & 0.749 & 0.960 & 92.16 \\
+gusd & Transformer (PyTorch) & 2.247 & 2.753 & 49.87 & 2.163 & 2.673 & 54.02 \\
+gusd & XGBoost & 1.792 & 2.210 & 69.93 & 0.008 & 0.012 & 99.84 \\
+\midrule
+hbtc & LSTM (PyTorch) & 2.332 & 2.952 & 51.94 & 1.579 & 1.991 & 72.45 \\
+hbtc & QNN (PyTorch+PennyLane) & 2.207 & 2.725 & 45.74 & 2.047 & 2.579 & 60.15 \\
+hbtc & QSVM-QNN (PyTorch+PennyLane) & 2.161 & 2.682 & 54.78 & 2.158 & 2.738 & 54.14 \\
+hbtc & Random Forest & 1.764 & 2.179 & 66.01 & 0.791 & 1.023 & 88.56 \\
+hbtc & Transformer (PyTorch) & 2.123 & 2.634 & 45.99 & 2.151 & 2.714 & 57.09 \\
+hbtc & XGBoost & 1.768 & 2.235 & 69.93 & 0.008 & 0.012 & 99.84 \\
+\midrule
+husd & LSTM (PyTorch) & 3.146 & 4.019 & 55.81 & 1.506 & 1.892 & 77.21 \\
+husd & QNN (PyTorch+PennyLane) & 2.849 & 3.594 & 47.55 & 2.115 & 2.668 & 62.41 \\
+husd & QSVM-QNN (PyTorch+PennyLane) & 2.682 & 3.366 & 48.84 & 2.268 & 2.884 & 53.40 \\
+husd & Random Forest & 2.025 & 2.588 & 74.51 & 0.840 & 1.059 & 89.38 \\
+husd & Transformer (PyTorch) & 2.666 & 3.358 & 53.49 & 2.267 & 2.859 & 52.66 \\
+husd & XGBoost & 1.981 & 2.576 & 73.20 & 0.008 & 0.012 & 100.00 \\
+\midrule
+ironbank & LSTM (PyTorch) & 2.514 & 3.192 & 50.13 & 1.577 & 1.994 & 73.70 \\
+ironbank & QNN (PyTorch+PennyLane) & 2.180 & 2.711 & 46.51 & 2.093 & 2.628 & 62.47 \\
+ironbank & QSVM-QNN (PyTorch+PennyLane) & 1.948 & 2.475 & 55.81 & 2.232 & 2.809 & 52.21 \\
+ironbank & Random Forest & 1.714 & 2.146 & 67.32 & 0.840 & 1.063 & 90.52 \\
+ironbank & Transformer (PyTorch) & 2.100 & 2.627 & 45.99 & 2.170 & 2.756 & 57.54 \\
+ironbank & XGBoost & 1.718 & 2.180 & 68.63 & 0.007 & 0.011 & 100.00 \\
+\midrule
+link & LSTM (PyTorch) & 2.777 & 3.457 & 53.49 & 1.772 & 2.222 & 71.37 \\
+link & QNN (PyTorch+PennyLane) & 2.586 & 3.165 & 51.68 & 2.111 & 2.607 & 60.88 \\
+link & QSVM-QNN (PyTorch+PennyLane) & 2.608 & 3.184 & 48.32 & 2.243 & 2.768 & 51.87 \\
+link & Random Forest & 1.804 & 2.299 & 75.82 & 0.833 & 1.053 & 91.67 \\
+link & Transformer (PyTorch) & 2.580 & 3.146 & 46.25 & 2.267 & 2.783 & 50.91 \\
+link & XGBoost & 1.820 & 2.349 & 72.55 & 0.008 & 0.012 & 99.51 \\
+\midrule
+lusd & LSTM (PyTorch) & 2.149 & 2.658 & 50.65 & 1.900 & 2.469 & 67.80 \\
+lusd & QNN (PyTorch+PennyLane) & 2.131 & 2.661 & 47.80 & 2.171 & 2.767 & 62.53 \\
+lusd & QSVM-QNN (PyTorch+PennyLane) & 2.045 & 2.585 & 47.29 & 2.267 & 2.912 & 52.95 \\
+lusd & Random Forest & 1.824 & 2.213 & 66.67 & 0.787 & 1.031 & 91.99 \\
+lusd & Transformer (PyTorch) & 2.138 & 2.659 & 48.06 & 2.272 & 2.891 & 53.80 \\
+lusd & XGBoost & 1.803 & 2.213 & 67.32 & 0.008 & 0.011 & 100.00 \\
+\midrule
+mim & LSTM (PyTorch) & 2.332 & 2.896 & 48.58 & 1.512 & 1.917 & 75.85 \\
+mim & QNN (PyTorch+PennyLane) & 2.158 & 2.718 & 48.58 & 2.059 & 2.639 & 58.96 \\
+mim & QSVM-QNN (PyTorch+PennyLane) & 2.036 & 2.532 & 46.51 & 2.140 & 2.777 & 54.02 \\
+mim & Random Forest & 1.671 & 2.036 & 65.36 & 0.758 & 0.992 & 90.36 \\
+mim & Transformer (PyTorch) & 2.040 & 2.548 & 51.68 & 2.121 & 2.724 & 54.54 \\
+mim & XGBoost & 1.692 & 2.134 & 64.05 & 0.007 & 0.011 & 100.00 \\
+\midrule
+musd & LSTM (PyTorch) & 2.296 & 3.014 & 51.68 & 1.591 & 2.032 & 74.83 \\
+musd & QNN (PyTorch+PennyLane) & 2.143 & 2.822 & 50.13 & 2.143 & 2.689 & 61.39 \\
+musd & QSVM-QNN (PyTorch+PennyLane) & 2.035 & 2.695 & 48.06 & 2.280 & 2.850 & 54.82 \\
+musd & Random Forest & 1.714 & 2.163 & 67.97 & 0.856 & 1.072 & 89.87 \\
+musd & Transformer (PyTorch) & 2.034 & 2.659 & 48.32 & 2.269 & 2.823 & 54.02 \\
+musd & XGBoost & 1.729 & 2.219 & 70.59 & 0.009 & 0.013 & 99.67 \\
+\midrule
+obtc & LSTM (PyTorch) & 2.253 & 2.858 & 48.58 & 2.029 & 2.559 & 64.68 \\
+obtc & QNN (PyTorch+PennyLane) & 2.215 & 2.774 & 48.32 & 2.164 & 2.748 & 59.07 \\
+obtc & QSVM-QNN (PyTorch+PennyLane) & 2.122 & 2.668 & 50.65 & 2.271 & 2.885 & 51.87 \\
+obtc & Random Forest & 1.802 & 2.246 & 70.59 & 0.850 & 1.097 & 89.38 \\
+obtc & Transformer (PyTorch) & 2.232 & 2.797 & 49.61 & 2.163 & 2.732 & 58.84 \\
+obtc & XGBoost & 1.726 & 2.202 & 77.12 & 0.007 & 0.011 & 99.67 \\
+\midrule
+pbtc & LSTM (PyTorch) & 3.044 & 3.794 & 49.61 & 1.478 & 1.896 & 77.72 \\
+pbtc & QNN (PyTorch+PennyLane) & 2.593 & 3.230 & 50.39 & 2.183 & 2.708 & 60.15 \\
+pbtc & QSVM-QNN (PyTorch+PennyLane) & 2.564 & 3.204 & 49.35 & 2.311 & 2.862 & 51.02 \\
+pbtc & Random Forest & 1.725 & 2.296 & 75.82 & 0.861 & 1.116 & 91.99 \\
+pbtc & Transformer (PyTorch) & 2.577 & 3.219 & 49.61 & 2.292 & 2.842 & 53.00 \\
+pbtc & XGBoost & 1.765 & 2.318 & 80.39 & 0.008 & 0.012 & 100.00 \\
+\midrule
+renbtc & LSTM (PyTorch) & 2.769 & 3.641 & 50.90 & 1.745 & 2.220 & 69.44 \\
+renbtc & QNN (PyTorch+PennyLane) & 2.684 & 3.431 & 46.25 & 2.154 & 2.727 & 63.10 \\
+renbtc & QSVM-QNN (PyTorch+PennyLane) & 2.514 & 3.319 & 49.87 & 2.293 & 2.917 & 52.21 \\
+renbtc & Random Forest & 1.932 & 2.418 & 73.20 & 0.798 & 1.029 & 89.87 \\
+renbtc & Transformer (PyTorch) & 2.582 & 3.373 & 51.16 & 2.201 & 2.780 & 56.69 \\
+renbtc & XGBoost & 2.053 & 2.475 & 69.28 & 0.009 & 0.013 & 99.67 \\
+\midrule
+reth & LSTM (PyTorch) & 2.613 & 3.329 & 48.32 & 2.020 & 2.496 & 63.61 \\
+reth & QNN (PyTorch+PennyLane) & 2.594 & 3.298 & 54.78 & 2.110 & 2.654 & 61.56 \\
+reth & QSVM-QNN (PyTorch+PennyLane) & 2.553 & 3.288 & 50.13 & 2.239 & 2.811 & 51.70 \\
+reth & Random Forest & 2.020 & 2.484 & 70.59 & 0.810 & 1.032 & 90.20 \\
+reth & Transformer (PyTorch) & 2.643 & 3.410 & 48.32 & 2.110 & 2.650 & 56.86 \\
+reth & XGBoost & 2.026 & 2.521 & 71.90 & 0.008 & 0.012 & 100.00 \\
+\midrule
+saave & LSTM (PyTorch) & 2.958 & 3.629 & 46.77 & 1.545 & 1.948 & 74.66 \\
+saave & QNN (PyTorch+PennyLane) & 2.277 & 2.863 & 46.51 & 2.093 & 2.629 & 57.54 \\
+saave & QSVM-QNN (PyTorch+PennyLane) & 2.235 & 2.785 & 51.16 & 2.231 & 2.816 & 54.02 \\
+saave & Random Forest & 1.696 & 2.177 & 75.16 & 0.794 & 1.032 & 90.36 \\
+saave & Transformer (PyTorch) & 2.516 & 3.088 & 46.77 & 2.260 & 2.834 & 54.08 \\
+saave & XGBoost & 1.819 & 2.316 & 71.24 & 0.007 & 0.011 & 100.00 \\
+\midrule
+sbtc & LSTM (PyTorch) & 2.843 & 3.635 & 51.16 & 1.602 & 1.997 & 75.00 \\
+sbtc & QNN (PyTorch+PennyLane) & 2.380 & 2.999 & 48.58 & 2.113 & 2.662 & 62.13 \\
+sbtc & QSVM-QNN (PyTorch+PennyLane) & 2.339 & 2.923 & 49.87 & 2.238 & 2.788 & 52.32 \\
+sbtc & Random Forest & 1.768 & 2.189 & 73.20 & 0.823 & 1.026 & 90.03 \\
+sbtc & Transformer (PyTorch) & 2.414 & 3.010 & 48.84 & 2.136 & 2.663 & 60.71 \\
+sbtc & XGBoost & 1.906 & 2.376 & 68.63 & 0.008 & 0.012 & 99.84 \\
+\midrule
+seth & LSTM (PyTorch) & 3.032 & 3.698 & 49.61 & 1.744 & 2.186 & 71.60 \\
+seth & QNN (PyTorch+PennyLane) & 2.747 & 3.373 & 47.55 & 2.030 & 2.562 & 58.84 \\
+seth & QSVM-QNN (PyTorch+PennyLane) & 2.706 & 3.305 & 46.25 & 2.125 & 2.666 & 51.76 \\
+seth & Random Forest & 2.012 & 2.476 & 76.47 & 0.774 & 0.986 & 89.54 \\
+seth & Transformer (PyTorch) & 2.777 & 3.436 & 47.55 & 2.032 & 2.537 & 59.75 \\
+seth & XGBoost & 2.090 & 2.609 & 72.55 & 0.008 & 0.012 & 99.84 \\
+\midrule
+steth & LSTM (PyTorch) & 2.428 & 3.055 & 47.80 & 1.931 & 2.402 & 69.50 \\
+steth & QNN (PyTorch+PennyLane) & 2.239 & 2.851 & 50.39 & 2.158 & 2.701 & 61.45 \\
+steth & QSVM-QNN (PyTorch+PennyLane) & 2.158 & 2.742 & 49.87 & 2.304 & 2.881 & 52.72 \\
+steth & Random Forest & 1.655 & 2.109 & 73.20 & 0.833 & 1.067 & 90.20 \\
+steth & Transformer (PyTorch) & 2.259 & 2.854 & 50.90 & 2.070 & 2.576 & 62.36 \\
+steth & XGBoost & 1.731 & 2.160 & 73.86 & 0.009 & 0.013 & 99.84 \\
+\midrule
+susd & LSTM (PyTorch) & 2.087 & 2.665 & 56.07 & 1.933 & 2.427 & 67.69 \\
+susd & QNN (PyTorch+PennyLane) & 1.988 & 2.529 & 53.49 & 2.140 & 2.662 & 60.09 \\
+susd & QSVM-QNN (PyTorch+PennyLane) & 1.963 & 2.525 & 48.06 & 2.256 & 2.796 & 54.25 \\
+susd & Random Forest & 1.571 & 2.000 & 70.59 & 0.835 & 1.060 & 90.36 \\
+susd & Transformer (PyTorch) & 1.987 & 2.549 & 51.42 & 2.214 & 2.743 & 56.92 \\
+susd & XGBoost & 1.670 & 2.111 & 68.63 & 0.009 & 0.013 & 99.84 \\
+\midrule
+tbtc & LSTM (PyTorch) & 2.310 & 2.827 & 53.23 & 1.958 & 2.489 & 68.93 \\
+tbtc & QNN (PyTorch+PennyLane) & 2.166 & 2.594 & 52.97 & 2.354 & 2.981 & 59.75 \\
+tbtc & QSVM-QNN (PyTorch+PennyLane) & 2.160 & 2.577 & 47.03 & 2.473 & 3.135 & 50.91 \\
+tbtc & Random Forest & 1.655 & 2.031 & 73.20 & 0.867 & 1.111 & 91.18 \\
+tbtc & Transformer (PyTorch) & 2.171 & 2.593 & 49.61 & 2.460 & 3.111 & 53.06 \\
+tbtc & XGBoost & 1.706 & 2.116 & 71.90 & 0.008 & 0.012 & 100.00 \\
+\midrule
+tricrypto & LSTM (PyTorch) & 2.371 & 3.027 & 52.20 & 1.512 & 1.892 & 74.15 \\
+tricrypto & QNN (PyTorch+PennyLane) & 2.201 & 2.786 & 46.51 & 2.085 & 2.586 & 59.35 \\
+tricrypto & QSVM-QNN (PyTorch+PennyLane) & 2.084 & 2.648 & 50.39 & 2.204 & 2.729 & 50.68 \\
+tricrypto & Random Forest & 1.602 & 2.040 & 75.16 & 0.783 & 1.005 & 89.71 \\
+tricrypto & Transformer (PyTorch) & 2.084 & 2.642 & 51.16 & 2.206 & 2.728 & 51.19 \\
+tricrypto & XGBoost & 1.630 & 2.044 & 69.28 & 0.006 & 0.010 & 99.51 \\
+\midrule
+tricrypto2 & LSTM (PyTorch) & 2.224 & 2.876 & 59.43 & 1.711 & 2.144 & 68.65 \\
+tricrypto2 & QNN (PyTorch+PennyLane) & 2.133 & 2.666 & 54.01 & 2.065 & 2.594 & 59.30 \\
+tricrypto2 & QSVM-QNN (PyTorch+PennyLane) & 2.006 & 2.478 & 51.16 & 2.175 & 2.744 & 51.98 \\
+tricrypto2 & Random Forest & 1.605 & 2.038 & 69.28 & 0.777 & 0.994 & 89.05 \\
+tricrypto2 & Transformer (PyTorch) & 2.089 & 2.611 & 52.71 & 1.875 & 2.373 & 65.36 \\
+tricrypto2 & XGBoost & 1.576 & 1.993 & 75.16 & 0.006 & 0.010 & 100.00 \\
+\midrule
+usdp & LSTM (PyTorch) & 2.530 & 3.209 & 48.32 & 1.490 & 1.895 & 74.43 \\
+usdp & QNN (PyTorch+PennyLane) & 2.319 & 2.887 & 48.84 & 2.120 & 2.655 & 59.58 \\
+usdp & QSVM-QNN (PyTorch+PennyLane) & 2.231 & 2.800 & 54.52 & 2.170 & 2.748 & 55.84 \\
+usdp & Random Forest & 1.736 & 2.184 & 69.93 & 0.784 & 0.982 & 88.24 \\
+usdp & Transformer (PyTorch) & 2.210 & 2.771 & 49.61 & 2.195 & 2.754 & 54.93 \\
+usdp & XGBoost & 1.709 & 2.202 & 71.90 & 0.008 & 0.011 & 99.51 \\
+\midrule
+\multicolumn{2}{l}{\textbf{ALL POOLS AVERAGE}} & & & & & & \\
+\midrule
+ALL\_POOLS\_AVERAGE & LSTM (PyTorch) & 2.568 & 3.239 & 51.22 & 1.678 & 2.119 & 72.23 \\
+ALL\_POOLS\_AVERAGE & QNN (PyTorch+PennyLane) & 2.332 & 2.929 & 49.77 & 2.132 & 2.678 & 60.63 \\
+ALL\_POOLS\_AVERAGE & QSVM-QNN (PyTorch+PennyLane) & 2.259 & 2.844 & 49.39 & 2.248 & 2.828 & 52.77 \\
+ALL\_POOLS\_AVERAGE & Random Forest & 1.765 & 2.215 & 71.36 & 0.808 & 1.035 & 90.19 \\
+ALL\_POOLS\_AVERAGE & Transformer (PyTorch) & 2.309 & 2.902 & 49.79 & 2.192 & 2.749 & 56.34 \\
+ALL\_POOLS\_AVERAGE & XGBoost & 1.802 & 2.270 & 71.57 & 0.008 & 0.012 & 99.85 \\
+\end{longtable}
+\normalsize 
