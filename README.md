@@ -2,12 +2,13 @@
 
 **PyTorch Deep Learning + Quantum Machine Learning based Curve Finance Virtual Price Prediction and Model Comparison Platform**
 
+[![arXiv](https://img.shields.io/badge/arXiv-2508.02685-b31b1b.svg?style=flat-square)](https://arxiv.org/abs/2508.02685)  
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PyTorch](https://img.shields.io/badge/PyTorch-v1.10+-red.svg)](https://pytorch.org/)
 [![PennyLane](https://img.shields.io/badge/PennyLane-v0.28+-orange.svg)](https://pennylane.ai/)
-[![Prediction Accuracy](https://img.shields.io/badge/3Pool_Test_Accuracy-69.28%25-green.svg)]()
-
+[![Prediction Accuracy](https://img.shields.io/badge/3Pool_Test_Accuracy-69.28%25-green.svg)]()  
+The official implement of paper [Benchmarking Classical and Quantum Models for DeFi Yield Prediction on Curve Finance](https://arxiv.org/abs/2508.02685).  
 > 🚀 **Predict Curve Pool Virtual Price changes using Random Forest, LSTM, Transformer and QNN (Quantum Neural Network) models**
 
 ---
